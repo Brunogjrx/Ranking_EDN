@@ -1,5 +1,5 @@
- 1,Aline Alves Dos Santos Dias,100  
- 1,ANA LÚCIA NUNES LOPES DE SANTANA,100  
+ 1,Aline Alves,100  
+ 1,ANA LÚCIA,100  
  1,Breno Dario Pontes Silva,100    
  1,Carlos Bonato,100    
  1,Hugo Francisquetti,100    
