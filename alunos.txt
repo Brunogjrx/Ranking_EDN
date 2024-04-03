@@ -3,7 +3,7 @@
  1,Breno Dario,100    
  1,Carlos Bonato,100    
  1,Hugo Francisquetti,100    
- 1,João Otávio Monteiro Rosa,100    
+ 1,João Otávio,100    
  1,Lisandra Tkaczuk Da Silva,100                                                                  
  2,Bruno De Medeiros Luz,94    
  2,Fábio Josmar De Brito,94    
