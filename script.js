@@ -1,116 +1,86 @@
-function criarDicionario(filePath) {
-    return new Promise((resolve, reject) => {
-        fetch(filePath)
-            .then(response => response.text())
-            .then(data => {
-                const linhas = data.trim().split('\n');
-                const registros = [];
+let
+quantidadeColunas = 7,
+quantidadeMaximaPorColuna = 3
+;
 
-                linhas.forEach((linha) => {
-                    const [posicao, nome, porcentagem] = linha.split(',');
-                    registros.push({ posicao: parseInt(posicao.trim()), nome: nome.trim(), porcentagem: parseInt(porcentagem.trim()) });
-                });
 
-                resolve(registros);
-            })
-            .catch(error => {
-                console.error('Erro ao carregar o arquivo:', error);
-                reject(error);
-            });
-    });
-}
+document.getElementById('abrirArquivo').addEventListener('change', (event) => {
+    const arquivo = event.target.files[0];
+    const ler = new FileReader();
+    var novasLinhas = [];
+    ler.onload = function () {
+        const texto = ler.result;
+        const filtro = /,(?=(?:[^"]*"[^"]*")*[^"]*$)/g;
+        const linhas = texto.split("\n");
+        var pontoVirgulaForaAspas = linhas[2].replace(filtro, '; ').split('; ');
 
-document.addEventListener("DOMContentLoaded", function () {
+        var separandoNomeParaOrganizar = pontoVirgulaForaAspas[0].replace(/"/g, '').split(',');
 
-    const ordemIndices = [10, 8, 6, 4, 2, 1, 3, 5, 7, 9];
-    const filePath = 'alunos.txt';
-
-    criarDicionario(filePath)
-        .then(registros => {
-            console.log(registros);
-            registros.sort((a, b) => {
-                const indiceA = ordemIndices.indexOf(a.posicao);
-                const indiceB = ordemIndices.indexOf(b.posicao);
-                return indiceA - indiceB;
-            });
-
-            const podium = document.getElementById('podium');
-
-            const registrosAgrupados = {};
-            const pontuacao = {}
-
-            registros.forEach(registro => {
-                if (!registrosAgrupados[registro.posicao]) {
-                    registrosAgrupados[registro.posicao] = [];
-                    pontuacao[registro.posicao] = registro.porcentagem;
+        var listaAlunos = separandoNomeParaOrganizar[1] + " " + separandoNomeParaOrganizar[0] + ";" + pontoVirgulaForaAspas[4] + ";" + pontoVirgulaForaAspas[121]
+            .split(',')[0].replace(/"/g, '') + "\n"
+        for (let i = 3; i < linhas.length - 3; i++) {
+            pontoVirgulaForaAspas = linhas[i].replace(filtro, '; ').split('; ');
+            separandoNomeParaOrganizar = pontoVirgulaForaAspas[0].replace(/"/g, '').split(',');
+            listaAlunos += separandoNomeParaOrganizar[1] + " " + separandoNomeParaOrganizar[0] + ";" + pontoVirgulaForaAspas[4] + ";" + pontoVirgulaForaAspas[121]
+                .split(',')[0].replace(/"/g, '') + "\n"
+        }
+        var novo = true;
+        var id = 0;
+        var listaAlunoss = listaAlunos.split('\n');
+        for (var nota = 100; nota > 0; nota--) {
+            for (var alunos = 0; alunos < listaAlunoss.length; alunos++) {
+                var colunas = listaAlunoss[alunos].split(';');
+                if (colunas[2] == nota) {
+                    if (novo == true) { id++; novo = false; }
+                    novasLinhas.push(id + "," + listaAlunoss[alunos].trim().replace(/;/g, ","));
+                    continue;
                 }
-                registrosAgrupados[registro.posicao].push(registro.nome);
-            });
-            
-
-            for (let i = 0; i < ordemIndices.length; i++) {
-                const positionElement = document.createElement('div');
-                positionElement.classList.add('position');
-
-                const medalha = document.createElement('img');
-                medalha.src = "https://img.icons8.com/plasticine/100/gold-medal.png";
-                medalha.style.width ="100px";
-                positionElement.appendChild(medalha)
-
-                const nomeElement = document.createElement('h3');
-                nomeElement.textContent = pontuacao[ordemIndices[i]] + '%';
-                positionElement.appendChild(nomeElement);
-
-                porcentagem = registrosAgrupados[ordemIndices[i]];
-                console.log(porcentagem);
-
-                const nomes = registrosAgrupados[ordemIndices[i]];
-                if (nomes) {
-                    nomes.forEach(nome => {
-                        const nomeElement = document.createElement('h5');
-                        nomeElement.textContent = nome;
-                        positionElement.appendChild(nomeElement);
-                    });
-                }
-
-                podium.appendChild(positionElement);
             }
-        })
-        .catch(error => {
-            console.error('Erro ao criar o dicionário:', error);
-        });
+            novo = true;
+        }
+        classificacao(novasLinhas);
+        // Nome da turma
+        document.getElementById("sala").innerText = novasLinhas[0].split(',')[2];
+    }
+    ler.onerror = function () { console.error('Erro ao ler o arquivo'); };
+    ler.readAsText(arquivo, 'UTF-8');
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-    const podium = document.getElementById('podium');
 
-    function ajustarAlturaPosicao() {
-        const posicoes = document.querySelectorAll('.position');
-        const totalPosicoes = posicoes.length;
+function classificacao(lista) {
+    const divs = document.querySelectorAll("#classificar div");
+    divs.forEach((e)=>{e.style.width = `${parseInt(document.body.clientWidth / (quantidadeColunas + 1))}px`;});
+    const classficar = document.querySelectorAll("#classificar > div");
+    let id = 0, nota = 0;
 
-        let alturaTotal = 0;
-        posicoes.forEach(posicao => {
-            alturaTotal += posicao.scrollHeight;
-        });
-
-        const alturaMedia = alturaTotal / totalPosicoes;
-
-        const diferencasAltura = [];
-        for (let i = 0; i < totalPosicoes - 1; i++) {
-            const diferenca = posicoes[i + 1].scrollHeight - posicoes[i].scrollHeight;
-            diferencasAltura.push(diferenca);
-        }
-
-        const proporcoes = diferencasAltura.map(diferenca => diferenca / alturaTotal);
-
-        for (let i = 0; i < totalPosicoes; i++) {
-            const novaAltura = posicoes[i].scrollHeight + alturaMedia * proporcoes[i];
-            posicoes[i].style.height = novaAltura + 'px';
+    for (let i = 0; i < lista.length; i++) {
+        id = parseInt(lista[i].split(',')[0]);
+        if (id <= quantidadeColunas) {
+            document.getElementById("c" + id).innerHTML += lista[i].split(',')[1] + "\n\n";
+            M(document.getElementById("c" + id).innerText.split('\n').length);
         }
     }
+    document.getElementById("classificar").style.display = "flex";
+}
 
-    ajustarAlturaPosicao();
+const areaFoto = document.getElementById("rank");
+const ft = document.getElementById("fotos");
+const rft = document.getElementById("rft");
 
-    const observer = new MutationObserver(ajustarAlturaPosicao);
-    observer.observe(podium, { childList: true, subtree: true });
+ft.addEventListener("click", async () => {
+    const canvas = await html2canvas(document.querySelector("#rank")).then(canvas => {
+        const img = canvas.toDataURL();
+        let a = document.createElement("a");
+        a.style = "display: none"; document.body.appendChild(a);
+        a.href = img;
+        const dt = new Date();
+        const agora = dt.getDay() + "." + dt.getMonth() + "." + dt.getFullYear() + " - " + dt.getHours() + "." + dt.getMinutes() + "." + dt.getSeconds();
+        a.download = "Grafico [" + agora + "].png";
+        a.click();
+        window.URL.revokeObjectURL(url); a.remove();
+    });
 });
+
+function M(texto) {
+    console.log(texto);
+}

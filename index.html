@@ -1,56 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" type="text/css" href="estilo.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Reddit+Mono:wght@200..900&display=swap" rel="stylesheet">
-    <title>Ranking com Pódio</title>
+    <title>EdN</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+        integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="script.js"></script>
 </head>
 
 <body>
-
-    <!-- Manter as alterações que não foram solicitadas -->
-
-    <div class="container">
-        <header>
-            <span><img src="./img/coroa.png" /></span>
-            <!-- Alterar no seguinte h1 a semana equivalente e o nome do professor -->
-            <h1>RANKING ALUNOS re:Start 1 AWS - BRSAO90 Semana X Professor </h1>
-            <span><img src="./img/coroa.png" /></span>
-        </header>
-        <div class="podium" id="podium">
+    <input type="file" id="abrirArquivo" accept=".csv" style="display: none;" />
+    <section id="ferramentas">
+        <div id="botoes">
+            <input type="image" value="" src="./src/arquivo.png" alt="Carregar .CSV" title="Carregar .CSV"
+                onclick="document.getElementById('abrirArquivo').click();">
+            <input type="image" value="" id="fotos" src="./src/foto.png" title="Salvar PNG do Grafico">
         </div>
-
-        <div class="posicao">
-            <span>10º</span>
-            <span>8º</span>
-            <span>6º</span>
-            <span>4º</span>
-            <span>2º</span>
-            <span>1º</span>
-            <span>3º</span>
-            <span>5º</span>
-            <span>7º</span>
-            <span>9º</span>
+    </section>
+    <section id="rank">
+        <div id="titulo">
+            <img src="./src/coroa.png" alt="coroas">
+            <div>
+                <p>Ranking semanal dos Alunos</br>re:Start AWS</p>
+                <p id="sala"></p>
+            </div>
+            <img src="./src/coroa.png" alt="coroas">
         </div>
-        <div class="colocation">colocação</div>
-
-        <footer>
-            <img src="./img/logo.png" />
-            <a href="https://escoladanuvem.org/">escoladanuvem.org</a>
-        </footer>
-    </div>
-    <script src="script.js"></script>
+        <div id="classificar">
+            <div id="c6"></div>
+            <div id="c4"></div>
+            <div id="c2"></div>
+            <div id="c1"></div>
+            <div id="c3"></div>
+            <div id="c5"></div>
+            <div id="c7"></div>
+        </div>
+    </section>
+    <section id="rft">
+    </section>
 </body>
 
 </html>
-
-<!-- CRÉDITOS:
-    Bruno Guimarães linkedin: https://www.linkedin.com/in/brunoguimaraesjr/ , 
-    Rayssa Vilaça linkedin: https://www.linkedin.com/in/rayssa-vilaca/ ,
-    Ana Luiza de Castro linkedin: https://www.linkedin.com/in/ana-luiza-de-castro/ 
--->
