@@ -13,14 +13,17 @@ document.getElementById('abrirArquivo').addEventListener('change', (event) => {
         filtro = /,(?=(?:[^"]*"[^"]*")*[^"]*$)/g,
         linhas = texto.split("\n");
         let listaJaFiltrada = linhas[2].replace(filtro, '; ').split('; ');
-
+        M(linhas);
         let separandoNomeParaOrganizar = listaJaFiltrada[0].replace(/"/g, '').split(',');
         
-        let listaAlunos = separandoNomeParaOrganizar[1] + " " + separandoNomeParaOrganizar[0] + ";" + listaJaFiltrada[linhas[0].split(",").indexOf("Section")] + ";" + listaJaFiltrada[linhas[0].split(",").indexOf("Current Score")].split(',')[0].replace(/"/g, '') + "\n";
+        let listaAlunos = separandoNomeParaOrganizar[1] + " " + separandoNomeParaOrganizar[0] + ";" 
+        + listaJaFiltrada[linhas[0].split(",").indexOf("Section")] + ";" + 
+        listaJaFiltrada[linhas[0].split(",").indexOf("Current Score")].split(',')[0].replace(/"/g, '') + "\n";
         for (let i = 3; i < linhas.length - 3; i++) {
             listaJaFiltrada = linhas[i].replace(filtro, '; ').split('; ');
             separandoNomeParaOrganizar = listaJaFiltrada[0].replace(/"/g, '').split(',');
-            listaAlunos += separandoNomeParaOrganizar[1] + " " + separandoNomeParaOrganizar[0] + ";" + listaJaFiltrada[4] + ";" + listaJaFiltrada[121].split(',')[0].replace(/"/g, '') + "\n"
+            listaAlunos += separandoNomeParaOrganizar[1] + " " + separandoNomeParaOrganizar[0] + ";" 
+            + listaJaFiltrada[linhas[0].split(",").indexOf("Section")] + ";" + listaJaFiltrada[linhas[0].split(",").indexOf("Current Score")].split(',')[0].replace(/"/g, '') + "\n"
         }
         let novo = true, id = 0, listaAlunoss = listaAlunos.split('\n');
         for (let nota = 100; nota > 0; nota--) {
