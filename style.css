@@ -15,8 +15,7 @@
 
 html {
     height: 100vh;
-    width: 100vw;
-    padding: 1vh;
+    padding: 1vh 2vh;
 }
 
 section {
@@ -59,9 +58,8 @@ body {
 
 #titulo img {
     object-fit: contain;
-    height: 15vw;
-    height: auto;
-    width: 15vw;
+    height: 15vh;
+    width: 15vh;
 }
 
 #titulo div {
