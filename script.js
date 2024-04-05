@@ -53,9 +53,9 @@ function classificacao(lista) {
         classf.appendChild(divClassf);
     }
     */
-    const divs = document.querySelectorAll("#classificar > div");
-    divs.forEach((e)=>{e.style.width = `${parseInt(document.body.clientWidth / (quantidadeColunas + 1))}px`;});
-    
+    /* const divs = document.querySelectorAll("#classificar > div");
+    divs.forEach((e)=>{e.style.width = `${parseInt(document.body.clientWidth / (quantidadeColunas + 1))}px`;}); */
+
     let id = 0;
     for (let i = 0; i < lista.length; i++) {
         id = parseInt(lista[i].split(',')[0]);
