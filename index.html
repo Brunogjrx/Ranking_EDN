@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EdN</title>
+    <meta name="author" content="Thiago Silva, Ana Luiza, Bruno Guimaraes">
+    <meta name="description" content="Site para ajudar professores da Escola da Nuvem">
+    <meta name="keywords" content="csv, rank, escola da nuvem">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
         integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
@@ -13,33 +16,84 @@
 </head>
 
 <body>
-    <input type="file" id="abrirArquivo" accept=".csv" style="display: none;" />
-    <section id="ferramentas">
-            <input type="image" value="" src="./src/arquivo.png" alt="Carregar .CSV" title="Carregar .CSV"
-                onclick="document.getElementById('abrirArquivo').click();">
-            <input type="image" value="" id="fotos" src="./src/foto.png" title="Salvar PNG do Grafico">
+    <input type="file" id="abrirArquivo" accept=".csv" value="" style="display: none;" />
+    <section id="telaInicial">
+        <div id="logoEdN">
+            <img src="./src/logo.png" alt="logo escola da nuvem" style="height: 100%; width: auto; margin-left: 2vh;" class="sombraImg">
+        </div>
+        <div id="divTelaI">
+         <div id="divTelaIOrgan">
+            <form id="opcoes">
+                <label for="numColunas">Numero de Colunas</label>
+                <input type="number" name="numColunas" id="numColunas" value="7" max="15">
+                <label for="numAlunos">Número de alunos</label>
+                <input type="number" name="numAlunos" id="numAlunos" value="10" max="100">
+            </form>
+            <div id="selecArquivo">
+                <label for="arquivo" style="cursor: pointer;">Selecione o .CSV</label>
+                <input type="image" value="" src="./src/arquivo.png" alt="Carregar .CSV" title="Carregar .CSV"
+                    name="arquivo" id="arquivo" onclick="document.getElementById('abrirArquivo').click();">
+            </div>
+         </div>
+        </div>
+        <div id="creditosTelaInicial">
+            <div id="divCredIicial" style="display: flex; width: 100%; height: 100%;">
+                <div class="organizaCreditos" onmouseover="creditosVisiveis('#Thiago',true)"
+                    onmouseout="creditosVisiveis('#Thiago',false)">
+                    <p>Thiago</p>
+                    <div class="social" id="Thiago">
+                        <div>
+                            <a href="https://www.linkedin.com/in/thiago-cs/" target="_blank" alt="Linkdin">Linkdin</a>
+                            <a href="https://github.com/ThiagoCS0" target="_blank" alt="Github" style="color: #FC3;">Github</a>
+                        </div>
+                        <img src="./src/soc-thiago.jpeg"
+                            alt="Thiago">
+                    </div>
+                </div>
+                <div class="organizaCreditos" onmouseover="creditosVisiveis('#Bruno',true)"
+                    onmouseout="creditosVisiveis('#Bruno',false)">
+                    <p>Bruno</p>
+                    <div class="social" id="Bruno">
+                        <div>
+                            <a href="https://www.linkedin.com/in/brunoguimaraesjr/" target="_blank" alt="Linkdin">Linkdin</a>
+                            <a href="https://github.com/Brunogjrx/" target="_blank" alt="Github" style="color: #EEE;">Github</a>
+                        </div>
+                        <img src="./src/soc-bruno.jpeg"
+                            alt="Bruno">
+                    </div>
+                </div>
+                <div class="organizaCreditos" onmouseover="creditosVisiveis('#Ana',true)"
+                    onmouseout="creditosVisiveis('#Ana',false)">
+                    <p>Ana</p>
+                    <div class="social" id="Ana">
+                        <div>
+                            <a href="https://www.linkedin.com/in/ana-luiza-de-castro/" target="_blank" alt="Linkdin">Linkdin</a>
+                            <a href="https://github.com/analuizadev" target="_blank" alt="Github" style="color: #F6B;">Github</a>
+                        </div>
+                        <img src="./src/soc-ana.jpeg" alt="Ana">
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
     <section id="rank">
-        <div id="titulo">
+        <div id="ferramentas">
+            <a href="#" onclick="Inicio()"><input type="image" value="" id="inicio" src="./src/inicio.png" class="sombraImg" title="Salvar PNG do Grafico"></a>
+            <input type="image" value="" id="fotos" src="./src/foto.png" class="sombraImg" title="Salvar PNG do Grafico">
+        </div>
+        <div id="titulo" style="width: 100%;">
             <img src="./src/coroa.png" alt="coroas">
             <div>
                 <p>Ranking semanal dos Alunos</br>AWS re:Start</p>
                 <p id="sala"></p>
             </div>
             <img src="./src/coroa.png" alt="coroas">
-            
         </div>
-        <div id="classificar">
+        <div id="classificarPai">
+            <div id="classificar">
+                
+            </div>
         </div>
-    </section>
-    <section id="rft">
     </section>
 </body>
 </html>
-                <!--
-Nome do professor : Texto
-re:Start "N" : Dropdown
-Trofeu : 
-filtrar : 
-%
--->
