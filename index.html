@@ -2,41 +2,101 @@
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EdN</title>
-    <meta name="author" content="Thiago Silva, Ana Luiza, Bruno Guimaraes">
-    <meta name="description" content="Site para ajudar professores da Escola da Nuvem">
-    <meta name="keywords" content="csv, rank, escola da nuvem">
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ranking</title>
+    <meta name="author" content="Thiago Silva, Ana Luiza, Bruno Guimaraes" />
+    <meta name="description" content="Site para ajudar professores da Escola da Nuvem" />
+    <meta name="keywords" content="csv, rank, escola da nuvem" />
+    <link rel="icon" type="image/x-icon" href="./src/rank.png" />
+    <link rel="stylesheet" href="style.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
         integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        defer crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script defer src="script.js"></script>
 </head>
 
 <body>
-    <input type="file" id="abrirArquivo" accept=".csv" value="" style="display: none;" />
+    <input type="file" id="abrirArquivo" accept=".csv" style="display: none;" />
     <section id="telaInicial">
-        <div id="logoEdN">
-            <img src="./src/logo.png" alt="logo escola da nuvem" style="height: 100%; width: auto; margin-left: 2vh;" class="sombraImg">
+        <dialog>
+            <div id="versoes">
+                <button class="tablinks" onclick="versionador(event, true, 'v10')">1.0</button>
+                <button class="tablinks" onclick="versionador(event, true, 'v20')">2.0</button>
+                <button class="tablinks" onclick="versionador(event, true, 'v21')">2.1</button>
+                <button style="background-color: #0003; width: fit-content;" onclick="Versao(false)">x</button>
+            </div>
+        
+            <div id="v10" class="tabcontent">
+                <h3>1.0 Versão original</h3>
+                <p>- Idealização do prof. Bruno da Escola da Nuvem</br>- Projeto iniciado pela Raysa e Ana</p>
+            </div>
+        <div id="v20" class="tabcontent">
+            <h3>2.0 Versão reformulada</h3>
+            <p>- Com permissão do Bruno, Thiago refez tudo</br>- Essa versão foi a primeira a ser publicada no Linkdin</p>
+        </div>
+        
+        <div id="v21" class="tabcontent">
+            <h3>2.1 Versão 1 pós publicação</h3>
+            <p>- Com as 1ªs melhorias pós publicação no Linkdin foi adicionado o seguinte:</p></br>
+            <p>
+                <span>[HTML/Imagem]</span>
+                </br> - Favicon
+                <span>[HTML/CSS/JS]</span>
+                </br> - Adicionado campos Titulo, subtítulo, professor e semana
+                </br> - Histórico das versões (este)
+                <span>[HTML/CSS]</span>
+                    </br> - Layout adaptado aos novos campos
+                    </br> - Validação dos campos : fica vermelho até ser
+                    preenchido
+                <span>[JS]</span>
+                </br> - Validação dos campos
+            </p>
+        </div>
+    
+    
+    </dialog>
+        <div id="logoEdNeV">
+            <img src="./src/logo.png" alt="logo escola da nuvem" style="height: 100%; width: auto; margin-left: 2vh;"
+                class="sombraImg">
+            <a href="#" id="Versao" style="font-size: x-large; font-weight: bolder; text-decoration: none; width: 10vw; display: flex;align-items: center; justify-content: center;" onclick="Versao(true)" title="Histórico das versões">2.1</a>
         </div>
         <div id="divTelaI">
-         <div id="divTelaIOrgan">
-            <form id="opcoes">
-                <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; width: 100%;">
-                <label for="numColunas">Numero de Colunas</label>
-                <input type="number" name="numColunas" id="numColunas" value="7" max="15">
-                <label for="numAlunos">Número de alunos</label>
-                <input type="number" name="numAlunos" id="numAlunos" value="10" max="100">
+            <div id="divTelaIOrgan">
+                <form id="opcoes">
+                    <!-- style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; width: 100%;"> -->
+                    <div id="opcoesSup">
+                        <label for="texTitulo">Titulo</label>
+                        <input type="text" name="texTitulo" id="texTitulo" value="AWS re:Start - 1"
+                            title="Titulo do Rank" required />
+                        <label for="textSubtitulo">Subtitulo</label>
+                        <input type="text" name="textSubtitulo" id="textSubtitulo" value="Ranking dos Alunos"
+                            required />
+                    </div>
+                    <div id="opcoesInf">
+                        <div>
+                            <label for="texProfessor">Professor</label>
+                            <input type="text" name="texProfessor" id="texProfessor" value="" title="Nome do professor"
+                                required />
+                            <label for="numSemana">Semana</label>
+                            <input type="number" name="numSemana" id="numSemana" value="1" min="1" max="53"/>
+                        </div>
+                        <div>
+                            <label for="numColunas">N Colunas</label>
+                            <input type="number" name="numColunas" id="numColunas" value="7"
+                                title="Quantidade de colunas" min="1" max="15" />
+                            <label for="numAlunos">N alunos</label>
+                            <input type="number" name="numAlunos" id="numAlunos" value="10"
+                                title="Quantidade de alunos por coluna" min="1" />
+                        </div>
+                    </div>
+                </form>
+                <div id="selecArquivo">
+                    <label for="arquivo" style="cursor: pointer;">Selecione o .CSV</label>
+                    <input type="image" src="./src/arquivo.png" alt="Carregar .CSV" name="arquivo" id="arquivo"
+                        onclick="document.getElementById('abrirArquivo').click();">
+                </div>
             </div>
-            </form>
-            <div id="selecArquivo">
-                <label for="arquivo" style="cursor: pointer;">Selecione o .CSV</label>
-                <input type="image" value="" src="./src/arquivo.png" alt="Carregar .CSV" title="Carregar .CSV"
-                    name="arquivo" id="arquivo" onclick="document.getElementById('abrirArquivo').click();">
-            </div>
-         </div>
         </div>
         <div id="creditosTelaInicial">
             <div id="divCredIicial" style="display: flex; width: 100%; height: 100%;">
@@ -45,11 +105,11 @@
                     <p>Thiago</p>
                     <div class="social" id="Thiago">
                         <div>
-                            <a href="https://www.linkedin.com/in/thiago-cs/" target="_blank" alt="Linkdin">Linkdin</a>
-                            <a href="https://github.com/ThiagoCS0" target="_blank" alt="Github" style="color: #FC3;">Github</a>
+                            <a href="https://www.linkedin.com/in/thiago-cs/" target="_blank">Linkdin</a>
+                            <a href="https://github.com/ThiagoCS0" target="_blank" alt="Github"
+                                style="color: #FC3;">Github</a>
                         </div>
-                        <img src="./src/soc-thiago.jpeg"
-                            alt="Thiago">
+                        <img src="./src/soc-thiago.jpeg" alt="Thiago">
                     </div>
                 </div>
                 <div class="organizaCreditos" onmouseover="creditosVisiveis('#Bruno',true)"
@@ -57,11 +117,10 @@
                     <p>Bruno</p>
                     <div class="social" id="Bruno">
                         <div>
-                            <a href="https://www.linkedin.com/in/brunoguimaraesjr/" target="_blank" alt="Linkdin">Linkdin</a>
-                            <a href="https://github.com/Brunogjrx/" target="_blank" alt="Github" style="color: #EEE;">Github</a>
+                            <a href="https://www.linkedin.com/in/brunoguimaraesjr/" target="_blank">Linkdin</a>
+                            <a href="https://github.com/Brunogjrx/" target="_blank" style="color: #EEE;">Github</a>
                         </div>
-                        <img src="./src/soc-bruno.jpeg"
-                            alt="Bruno">
+                        <img src="./src/soc-bruno.jpeg" alt="Bruno">
                     </div>
                 </div>
                 <div class="organizaCreditos" onmouseover="creditosVisiveis('#Ana',true)"
@@ -69,8 +128,8 @@
                     <p>Ana</p>
                     <div class="social" id="Ana">
                         <div>
-                            <a href="https://www.linkedin.com/in/ana-luiza-de-castro/" target="_blank" alt="Linkdin">Linkdin</a>
-                            <a href="https://github.com/analuizadev" target="_blank" alt="Github" style="color: #F6B;">Github</a>
+                            <a href="https://www.linkedin.com/in/ana-luiza-de-castro/" target="_blank">Linkdin</a>
+                            <a href="https://github.com/analuizadev" target="_blank" style="color: #F6B;">Github</a>
                         </div>
                         <img src="./src/soc-ana.jpeg" alt="Ana">
                     </div>
@@ -80,11 +139,10 @@
                     <p>Rayssa</p>
                     <div class="social" id="Rayssa">
                         <div>
-                            <a href="https://www.linkedin.com/in/rayssa-vilaca/" target="_blank" alt="Linkdin">Linkdin</a>
-                            <a href="https://github.com/RayVilaca" target="_blank" alt="Github" style="color: #3F4;">Github</a>
+                            <a href="https://www.linkedin.com/in/rayssa-vilaca/" target="_blank">Linkdin</a>
+                            <a href="https://github.com/RayVilaca" target="_blank" style="color: #3F4;">Github</a>
                         </div>
-                        <img src="./src/soc-rayssa.jpeg"
-                            alt="Rayssa">
+                        <img src="./src/soc-rayssa.jpeg" alt="Rayssa">
                     </div>
                 </div>
             </div>
@@ -92,22 +150,27 @@
     </section>
     <section id="rank">
         <div id="ferramentas">
-            <a href="#" onclick="Inicio()"><input type="image" value="" id="inicio" src="./src/inicio.png" class="sombraImg" title="Salvar PNG do Grafico"></a>
-            <input type="image" value="" id="fotos" src="./src/foto.png" class="sombraImg" title="Salvar PNG do Grafico">
+            <a href="#" onclick="Inicio()">
+                <img src="./src/inicio.png" alt="Voltar ao inicio" class="sombraImg" title="Voltar ao Inicio"></a>
+            <a href="#rank" onclick="Fotos()">
+                <img src="./src/foto.png" alt="Salvar Grafico" class="sombraImg" title="Salvar PNG do Grafico"></a>
         </div>
-        <div id="titulo" style="width: 100%;">
+        <div id="titulo">
             <img src="./src/coroa.png" alt="coroas">
             <div>
-                <p>AWS re:Start - 1/Ranking semanal dos Alunos</br>Bruno Guimarães</p>
-                <p id="sala"></p>
+                <p id="stitulo"></p>
+                <p id="ssubtitulo"></p>
+                <p id="sprof"></p>
+                <p id="salas"></p>
             </div>
             <img src="./src/coroa.png" alt="coroas">
         </div>
         <div id="classificarPai">
             <div id="classificar">
-                
+
             </div>
         </div>
     </section>
 </body>
+
 </html>
