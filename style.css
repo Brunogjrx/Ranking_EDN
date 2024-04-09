@@ -206,7 +206,8 @@ input::-webkit-inner-spin-button {
 }
 
 .organizaCreditos {
-    width: 25%;
+    width: 20%;
+    max-width: 400px;
     padding: 0 4vw;
 }
 
