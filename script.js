@@ -58,7 +58,10 @@ abrir.addEventListener('change', (event) => {
         lista2Alunos = lista2Alunos.splice(0, lista2Alunos.length - 1);
 
         alunosFiltrados = listaLimpa(alunosFiltrados);
+        let alunosParaClipboardTmp = '';
         alunosParaClipboard = listaLimpa(listaNomesCompletos);
+        alunosParaClipboard.split('\n').forEach((e)=>{alunosParaClipboardTmp += e.split(',')[1]+'\n';});
+        alunosParaClipboard = alunosParaClipboardTmp;
 
         for (let nota = 100; nota > 0; nota--) {
             for (let alunos = 0; alunos < lista2Alunos.length; alunos++) {
