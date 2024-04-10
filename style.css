@@ -34,8 +34,48 @@ section {
     height: 100vh;
 }
 
+#erro {
+    border-bottom: 4px solid #F77;
+    background-color: #FCC;
+    border-radius: 10px 0;
+    height: fit-content;
+    width: fit-content;
+    padding: 20px;
+}
+
+#erro div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+#erro p {
+    font-size: large;
+    font-weight: bold;
+}
+
+#erro button {
+    background-color: #F77;
+    padding-bottom: 4px;
+    position: absolute;
+    font-size: large;
+    cursor: pointer;
+    color: #FFF;
+    height: 30px;
+    width: 30px;
+    right: 0;
+    top: 0;
+}
+
+#versionador {
+    max-width: 1000px;
+    width: 80%;
+}
+
 dialog {
-    width: 100vw;
+    box-shadow: 0 0 20px #0006;
     left: 50%;
     top: 5%;
     -webkit-transform: translateX(-50%);
@@ -44,7 +84,7 @@ dialog {
     transform: translateX(-50%);
 }
 
-dialog::backdrop{
+dialog::backdrop {
     background-color: #000A;
 }
 
@@ -83,17 +123,21 @@ dialog::backdrop{
     background-color: #000;
     background: linear-gradient(90deg, #06A 0%, #08B 100%);
     border: 1px solid #CCC;
-    padding: 6px 12px;
-    border-top: none;
-    display: none;
-    overflow: auto;
-    height: 50vh;
     max-height: 400px;
+    border-top: none;
+    overflow: auto;
+    padding: 20px;
+    display: none;
+    height: 50vh;
 }
 
 .tabcontent h3 {
+    border-bottom: 1px solid #09B;
+    padding-bottom: 1vh;
+    margin-bottom: 2vh;
+    font-weight: bolder;
     text-align: center;
-    padding: 5px;
+    font-size: larger;
 }
 
 .tabcontent * {
@@ -228,7 +272,7 @@ input::-webkit-inner-spin-button {
     align-items: center;
     text-align: center;
     display: flex;
-    height: 25%;
+    height: calc(25% - 30px);
     width: 100%;
 }
 
@@ -326,8 +370,6 @@ input::-webkit-inner-spin-button {
     font-weight: bolder;
     font-size: large;
 }
-
-#titulo div p {}
 
 #classificarPai {
     overflow: auto;
