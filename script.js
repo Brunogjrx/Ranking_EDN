@@ -60,8 +60,11 @@ abrir.addEventListener('change', (event) => {
         alunosFiltrados = listaLimpa(alunosFiltrados);
         let alunosParaClipboardTmp = '';
         alunosParaClipboard = listaLimpa(listaNomesCompletos);
+        M(alunosParaClipboard);
+        
         alunosParaClipboard.split('\n').forEach((e)=>{alunosParaClipboardTmp += e.split(',')[1]+'\n';});
         alunosParaClipboard = alunosParaClipboardTmp;
+        M(alunosParaClipboard);
 
         for (let nota = 100; nota > 0; nota--) {
             for (let alunos = 0; alunos < lista2Alunos.length; alunos++) {
@@ -228,17 +231,26 @@ function filtragem() {
 function listaLimpa(lista) {
     let listaTmp = '', listaSeparada = '', contador = 0;
 
-    lista.split('\n').sort().forEach((e) => { if (e.length > 1) { if (lista.indexOf('\n') < 0) { listaTmp = e + "\n"; } else { listaTmp += e + "\n"; } } });
-
+    lista.split('\n').sort().forEach((e) => {
+        if (e.length > 1) {
+            if (lista.indexOf('\n') < 0) {
+                listaTmp = e + "\n";
+            } else {
+                listaTmp += e + "\n";
+            }
+        }
+    });
+    
     listaSeparada = listaTmp.split('\n');
-    lista = listaTmp;
+    listaTmp = '';
+    lista = listaSeparada;
     if (listaSeparada[listaSeparada.length - 1].length < 1) {
         lista = listaSeparada.splice(0, listaSeparada.length - 2);
     } else
         if (listaSeparada[0].length < 1) {
             lista = listaSeparada.splice(1, listaSeparada.length - 1);
         }
-    lista.forEach((ex) => { contador++; listaTmp += ex; if (contador < lista.length) { listaTmp += "\n"; } });
+    lista.forEach((ex) => { contador++; if(listaTmp.length<1){listaTmp = ex;}else{listaTmp += ex;} if (contador < lista.length) { listaTmp += "\n"; } });
     return listaTmp;
 }
 function M(a) {
