@@ -1,24 +1,20 @@
-const txTitulo = document.getElementById('texTitulo'), txSubtitulo = document.getElementById('textSubtitulo'),
-    txProf = document.getElementById('texProfessor'), nSemana = document.getElementById('numSemana'),
-    nColunas = document.getElementById('numColunas'), nAlunos = document.getElementById('numAlunos'),
-    abrir = document.getElementById('abrirArquivo'),
-    titulo = document.getElementById('stitulo'), subtitulo = document.getElementById('ssubtitulo'),
-    prof = document.getElementById('sprof'), sala = document.getElementById('salas'),
-    preposicoes = ["da", "das", "de", "di", "do", "dos"], areaFoto = document.getElementById('rank');
-
-let alunosParaClipboard = '', alunosFiltrados = '', quantidadeColunas = 0;
-
+const inicioTitulo = document.getElementById('texTitulo'), inicioSubtitulo = document.getElementById('textSubtitulo'), inicioProfessor = document.getElementById('texProfessor'), inicioSemana = document.getElementById('numSemana'), inicioColunas = document.getElementById('numColunas'), inicioAlunos = document.getElementById('numAlunos'),
+    rankTitulo = document.getElementById('stitulo'), rankSubtitulo = document.getElementById('ssubtitulo'), rankProfessor = document.getElementById('sprof'), rankSala = document.getElementById('salas'),
+    preposicoes = ["da", "das", "de", "di", "do", "dos"], areaFotografada = document.getElementById('rank'),
+    abrir = document.getElementById('abrirArquivo');
+let alunosParaClipboard = '', alunosFiltrados = '', listaFiltrados='', quantidadeColunas = 0, semanas = '', listaFiltradosEmails = '';
 abrir.addEventListener('change', (event) => {
-
     if (validarCampos()) { return; }
-
-    quantidadeColunas = parseInt(nColunas.value);
-    titulo.innerText = txTitulo.value;
-    subtitulo.innerText = txSubtitulo.value + ' da semana ' + nSemana.value;
-    prof.innerText = txProf.value;
+    quantidadeColunas = parseInt(inicioColunas.value);
+    rankTitulo.innerText = inicioTitulo.value;
+    if (inicioSemana.value > 0) {
+        if (inicioSemana.value.length > 0) { semanas = ' da semana '; } else { semanas = 'Semana '; }
+        semanas += inicioSemana.value;
+    }
+    rankSubtitulo.innerText = inicioSubtitulo.value + semanas;
+    rankProfessor.innerText = inicioProfessor.value;
     const arquivo = event.target.files[0], ler = new FileReader();
     let novasLinhas = [];
-
     ler.onload = function () {
         const texto = ler.result, linhas = texto.split('\n');
         let listaJaFiltrada = linhas[2].replace(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/g, '; ').split('; ');
@@ -27,9 +23,7 @@ abrir.addEventListener('change', (event) => {
         let xmai1 = listaJaFiltrada[linhas[0].split(',').indexOf('SIS Login ID')];
         alunosFiltrados = formatacaoCaixa(separandoNomeParaOrganizar[1].trim() + ' ' + separandoNomeParaOrganizar[0].trim(), true) + ';' + (xmai1.length > 2 ? xmai1 : 'Nenhum') + ';';
         let listaNomesCompletos = formatacaoCaixa(separandoNomeParaOrganizar[1].trim() + ' ' + separandoNomeParaOrganizar[0].trim(), true) + ',';
-
         porcetagem = listaJaFiltrada[linhas[0].split(',').indexOf('Current Score')];
-
         if (!(porcetagem.indexOf(",") < -1)) {
             listaAlunos += porcetagem.split(',')[0].replace(/"/g, '') + "\n";
             listaNomesCompletos += porcetagem.split(',')[0].replace(/"/g, '') + "\n";
@@ -39,8 +33,7 @@ abrir.addEventListener('change', (event) => {
             listaNomesCompletos += porcetagem.replace(/"/g, '') + "%\n";
             alunosFiltrados += porcetagem.replace(/"/g, '') + "%\n";
         }
-
-        for (let i = 3; i < linhas.length - 3; i++) {
+        for (let i = 2; i < linhas.length - 2; i++) {
             listaJaFiltrada = linhas[i].replace(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/g, '; ').split('; ');
             separandoNomeParaOrganizar = listaJaFiltrada[0].replace(/"/g, '').split(',');
             listaAlunos += formatacaoCaixa(separandoNomeParaOrganizar[1].trim() + ' ' + separandoNomeParaOrganizar[0].trim(), false) + ';' + listaJaFiltrada[linhas[0].split(',').indexOf('Section')] + ';';
@@ -51,20 +44,15 @@ abrir.addEventListener('change', (event) => {
             alunosFiltrados += formatacaoCaixa(separandoNomeParaOrganizar[1].trim() + ' ' + separandoNomeParaOrganizar[0].trim(), true) + ';' + (xmai1.length > 2 ? xmai1 : '--Nenhum registrado--') + ';';
             if (!(porcetagem.indexOf(",") < -1)) {
                 listaAlunos += porcetagem.split(',')[0].replace(/"/g, '') + "\n"; listaNomesCompletos += porcetagem.split(',')[0].replace(/"/g, '') + "%\n"; alunosFiltrados += porcetagem.split(',')[0].replace(/"/g, '') + "\n";
-            } else { listaAlunos += porcetagem.replace(/"/g, '') + "\n"; listaNomesCompletos += porcetagem.replace(/"/g, '') + "%\n"; alunosFiltrados += porcetagem.replace(/"/g, '') + "%\n"; }
+            } else {
+                listaAlunos += porcetagem.replace(/"/g, '') + "\n"; listaNomesCompletos += porcetagem.replace(/"/g, '') + "%\n"; alunosFiltrados += porcetagem.replace(/"/g, '') + "%\n";
+            }
         }
-
         let novo = true, id = 0, lista2Alunos = listaAlunos.split('\n');
         lista2Alunos = lista2Alunos.splice(0, lista2Alunos.length - 1);
-
-        alunosFiltrados = listaLimpa(alunosFiltrados);
-        let alunosParaClipboardTmp = '';
         alunosParaClipboard = listaLimpa(listaNomesCompletos);
-        M(alunosParaClipboard);
-        
-        alunosParaClipboard.split('\n').forEach((e)=>{alunosParaClipboardTmp += e.split(',')[1]+'\n';});
-        alunosParaClipboard = alunosParaClipboardTmp;
-        M(alunosParaClipboard);
+        alunosFiltrados = listaLimpa(alunosFiltrados);
+        document.querySelector('#listOrd > p').innerText = alunosParaClipboard;
 
         for (let nota = 100; nota > 0; nota--) {
             for (let alunos = 0; alunos < lista2Alunos.length; alunos++) {
@@ -77,7 +65,7 @@ abrir.addEventListener('change', (event) => {
             }
             novo = true
         }
-        sala.innerText = novasLinhas[0].split(',')[2]
+        rankSala.innerText = novasLinhas[0].split(',')[2]
         classificacao(novasLinhas)
     }
     ler.onerror = function () {
@@ -86,7 +74,6 @@ abrir.addEventListener('change', (event) => {
     ler.readAsText(arquivo, 'UTF-8')
     abrir.value = ''
 })
-
 function classificacao(lista) {
     document.querySelectorAll("#classificar > div").forEach((el) => { el.remove(); });
     const classf = document.getElementById("classificar");
@@ -120,13 +107,12 @@ function classificacao(lista) {
                     default: imgUrl = "./src/premio4.png"; break;
                 }
                 imgClassf.src = imgUrl;
-                if (parseInt(p2Classf.innerHTML.split("<br><br>").length) <= parseInt(nAlunos.value)) {
+                if (parseInt(p2Classf.innerHTML.split("<br><br>").length) <= parseInt(inicioAlunos.value)) {
                     p2Classf.innerHTML += lista[j].split(',')[1] + "</br></br>";
                     p1Classf.innerText = lista[j].split(',')[3] + "%";
                 }
             }
         }
-
         divClassf.appendChild(imgClassf);
         divClassf.appendChild(p1Classf);
         divClassf.appendChild(p2Classf);
@@ -146,16 +132,12 @@ function classificacao(lista) {
         }
     }
     document.getElementById("opcoes").reset();
+    document.getElementById('rank').style.display = 'flex';
     document.getElementById('rank').scrollIntoView()
 }
 function Inicio() {
-    setTimeout(() => {
-        history.replaceState(
-            '',
-            document.title,
-            window.location.origin + window.location.pathname + window.location.search
-        )
-    }, 5)
+    setTimeout(() => { history.replaceState('', document.title, window.location.origin + window.location.pathname + window.location.search) }, 5)
+    setTimeout(()=>{document.getElementById('rank').style.display = 'none';},"1000");
 }
 function creditosVisiveis(elem, visivel) {
     if (visivel) {
@@ -163,39 +145,42 @@ function creditosVisiveis(elem, visivel) {
     } else { document.querySelector(elem).style.display = "none"; }
 }
 async function Fotos() {
-    const canvas = await html2canvas(document.querySelector("#rank")).then(canvas => {
-        const img = canvas.toDataURL();
-        let a = document.createElement("a");
-        a.style = "display: none"; document.body.appendChild(a);
-        a.href = img;
-        a.download = `${sala.innerText} - ${prof.innerText} - Semana ${nSemana.value}.png`;
-        a.click();
-        a.remove();
+    const canvas = await html2canvas(areaFotografada).then(canvas => {
+        let fotoDownload = document.createElement("a");
+        fotoDownload.style = "display: none";
+        const foto = canvas.toDataURL(), fotosSemana = '';
+        if(inicioSemana.value == '0'){fotosSemana = `- Semana ${semanas}`;}
+        fotoDownload.href = foto;
+        fotoDownload.download = `${rankSala.innerText} - ${rankProfessor.innerText}${fotosSemana}.png`;
+        document.body.appendChild(fotoDownload);
+        fotoDownload.click();
+        fotoDownload.remove();
     });
 }
-function Versao(b) {
-    const ver = document.getElementById('versionador');
-    if (b) {
-        funVersionador(document.querySelector('#versoes > button:nth-child(1)'), false, 'v10'),
-            ver.showModal()
-    } else { ver.close(); }
+function Abas(elementoDialog, menu, botao) {
+    const dlg = document.getElementById(elementoDialog);
+    document.getElementById(menu).querySelectorAll('button')[botao].click();
+    dlg.showModal();
 }
-function funVersionador(event, b, el) {
-    let id, abaConteudo, abaLinks;
-    abaConteudo = document.getElementsByClassName('tabcontent')
-    for (id = 0; id < abaConteudo.length; id++) {
-        abaConteudo[id].style.display = 'none'
+function Aba(aba, janelaAtiva, elementoDialog, menu, esteElemento) {
+    let id, abaLinks = document.querySelectorAll(menu + '> button'), abaConteudo = document.querySelectorAll(elementoDialog + '> .abaConteudo');
+    for (id = 0; id < abaLinks.length; id++) { abaLinks[id].className = abaLinks[id].className.replace(' active', ''); }
+    if (esteElemento) { aba.currentTarget.className += ' active'; } else { aba.className += ' active'; }
+    M(abaConteudo.length);
+    for (id = 0; id < abaConteudo.length; id++) { 
+        M(">>"+abaConteudo[id].style.display);
+        abaConteudo[id].style.display = 'none'; 
     }
-    abaLinks = document.getElementsByClassName('tablinks')
-    for (id = 0; id < abaLinks.length; id++) {
-        abaLinks[id].className = abaLinks[id].className.replace(' active', '')
-    }
-    document.getElementById(el).style.display = 'block';
-    if (b) { event.currentTarget.className += ' active'; } else { event.className += ' active'; }
+    document.getElementById(janelaAtiva).style.display = 'block';
 }
-function areaTransferencia(texto, b) {
-    let txt = b==true?alunosParaClipboard:texto;
-    navigator.clipboard.writeText(txt);
+function areaTransferencia(texto, opcao) {
+    let textoACopiar = texto;
+        switch(opcao){
+            case 'alunosFiltrados':filtragem(false); if(listaFiltrados.length>0){textoACopiar = listaFiltrados;} break;
+            case 'alunosTodos':if(alunosParaClipboard.length>0){textoACopiar = alunosParaClipboard;}break;
+            default: if(textoACopiar.length<1){return};
+        }
+    navigator.clipboard.writeText(textoACopiar);
 }
 function formatacaoCaixa(texto, b) {
     let nome = '';
@@ -207,54 +192,95 @@ function formatacaoCaixa(texto, b) {
     return texto;
 }
 function validarCampos() {
-    const err = [nColunas.value < 1, nColunas.value > 15, nSemana.value < 1, nSemana.value > 53, nAlunos.value < 1, txProf.value.length < 1];
+    const err = [inicioColunas.value < 1, inicioColunas.value > 15, inicioSemana.value < 0, inicioSemana.value > 53, inicioAlunos.value < 1, inicioProfessor.value.length < 1];
     let bolErr = false;
-    err.forEach((e) => { if (e == true) { bolErr = true; } });
+    err.forEach(e => { if (e == true) { bolErr = true; } });
     if (!bolErr) { return false; }
     document.getElementById("erro").showModal();
     abrir.value = '';
     document.getElementById('opcoes').reset();
     return true;
 }
-function filtragem() {
-    let lista70 = '', l = alunosFiltrados.split('\n'), contador = 0, t = '';
+function filtragem(exibir) {
+    if(exibir){document.getElementById('div2Filtrados').style.display = 'none';}
+    let l = alunosFiltrados.split('\n'), primeiro = true, t = '';
+    listaFiltrados = '';
+    const p = document.querySelector('#div1Filtrados > p'), valor = document.getElementById('alunosFiltrados').value;
+    if(exibir){p.innerHTML = "";}
     l.forEach((e) => {
         t = e.split(';');
-        if (parseInt(t[2]) < 70) {
-            if (contador < 1) { lista70 = 'Alunos com menos de 70%\n\n\nNome: ' + t[0] + '\nEmail: ' + t[1] + '\nNota: ' + t[2] + '%\n'; } else { lista70 += 'Nome: ' + t[0] + '\nEmail: ' + t[1] + '\nNota: ' + t[2] + '%\n'; }
-            if (contador < l.length - 1) { lista70 += '\n'; }
-            contador++;
-        }
-    });
-    areaTransferencia(lista70,false);
-}
-function listaLimpa(lista) {
-    let listaTmp = '', listaSeparada = '', contador = 0;
-
-    lista.split('\n').sort().forEach((e) => {
-        if (e.length > 1) {
-            if (lista.indexOf('\n') < 0) {
-                listaTmp = e + "\n";
+        if (parseInt(t[2]) < valor) {
+            if (primeiro) {
+                listaFiltradosEmails = t[1] + '\n';
+                listaFiltrados = `Alunos com menos de ${valor}%\n\n\nNome: ${t[0]}\nEmail: ${t[1]}\nNota: ${t[2]}%\n`;
+                if(exibir){p.innerHTML = `Nome: ${t[0]}</br>Email: <span id="spanEmail" onclick="emails('${t[1]}',false)">${t[1]}</span></br>Nota: ${t[2]}%</br></br>`;}
+                primeiro = false;
             } else {
-                listaTmp += e + "\n";
+                listaFiltradosEmails += t[1] + '\n';
+                listaFiltrados += `Nome: ${t[0]}\nEmail: ${t[1]}\nNota: ${t[2]}%\n\n`;
+                if(exibir){p.innerHTML += `Nome: ${t[0]}</br>Email: <span id="spanEmail" onclick="emails('${t[1]}',false)">${t[1]}</span></br>Nota: ${t[2]}%</br></br>`;}
             }
         }
     });
-    
-    listaSeparada = listaTmp.split('\n');
-    listaTmp = '';
-    lista = listaSeparada;
-    if (listaSeparada[listaSeparada.length - 1].length < 1) {
-        lista = listaSeparada.splice(0, listaSeparada.length - 2);
-    } else
-        if (listaSeparada[0].length < 1) {
-            lista = listaSeparada.splice(1, listaSeparada.length - 1);
-        }
-    lista.forEach((ex) => { contador++; if(listaTmp.length<1){listaTmp = ex;}else{listaTmp += ex;} if (contador < lista.length) { listaTmp += "\n"; } });
-    return listaTmp;
+    listaFiltradosEmails = listaFiltradosEmails.split('\n').join(',');
+    listaFiltradosEmails = listaFiltradosEmails.substring(0, listaFiltradosEmails.length - 1);
+}
+function listaLimpa(lista) {
+    let l = lista.split('\n').sort(), r = [];
+    l.forEach(e => { if (e.length > 1) { r.push(e) }; });
+    return r.join('\n');
+}
+function emails(email, maisDeUm) {
+    if(maisDeUm == null){document.querySelectorAll('.emailValores').forEach(valores=>{valores.value='';}); return;};
+    if(!maisDeUm){
+        emailPadrao(email);
+    }
+    let tipo = "to", instituicao = document.getElementById('emailInstituicao').value,
+    assinatura = document.getElementById('emailAssinatura').value,
+    mensagem = document.getElementById('emailMensagem').value,
+    titulo = document.getElementById('emailTitulo').value,
+    para = document.getElementById('emailPara').value;
+    mensagem = mensagem.replace(/%/g, '%25').replace(/\n/g, '%0D%0A');
+    mensagem += `%0D%0A%0D%0A${assinatura}%0D%0A%0D%0A${instituicao}%0D%0A`;
+    if (maisDeUm) { tipo = 'bcc'; }
+    window.open(`https://mail.google.com/mail/?view=cm&fs=1&${tipo}=${para}&su=${titulo}&body=${mensagem}`, "_blank");
+    emails(null,null);
+}
+function emailDiv() {
+    emailPadrao('');
+    const divEmail = document.getElementById('div2Filtrados');
+    document.querySelector('#div1Filtrados > p').innerText = '';
+    divEmail.style.display = divEmail.style.display == 'flex' ? 'none' : 'flex';
+}
+function emailPadrao(paraUm){
+    filtragem(false);
+    let titulo='Alerta de baixo desempenho!',
+    mensagem=`Caro aluno(a),
+
+Espero que esta mensagem o encontre bem. Gostaria de conversar um pouco sobre seu desempenho acadêmico recente. Tenho notado que sua nota atual está abaixo do esperado, e é importante abordarmos isso juntos.
+
+Manter uma média mínima (${document.getElementById('alunosFiltrados').value}%) é crucial não apenas para os requisitos do curso, mas também para garantir que você esteja aproveitando ao máximo sua experiência educacional. Sei que você tem potencial e estou aqui para apoiá-lo em sua jornada de aprendizado.
+
+Entendo que enfrentar dificuldades é parte do processo de aprendizado, e quero garantir que você saiba que não está sozinho nessa jornada. Estou disposto a ajudá-lo de qualquer maneira que puder. Além disso, lembre-se de que as avaliações podem ser feitas quantas vezes forem necessárias até alcançar a nota desejada.
+
+Se precisar de assistência adicional, como aulas de reforço, orientação individualizada ou simplesmente alguém para conversar sobre suas dificuldades, estou aqui para ajudar a encontrar soluções.
+
+Lembre-se de que cada desafio é uma oportunidade de crescimento e desenvolvimento. Estou confiante de que, com dedicação e esforço, você pode superar essas dificuldades e alcançar seus objetivos acadêmicos.
+
+Por favor, não hesite em entrar em contato comigo para discutir quaisquer preocupações ou para agendar uma reunião pessoalmente. Estou aqui para ajudá-lo a ter sucesso.
+
+Atenciosamente`,
+assinatura=rankProfessor.innerText,
+instituicao='AWS re/Start Accredited Instructor',
+para=paraUm.length>0?paraUm:listaFiltradosEmails;
+document.getElementById('emailInstituicao').value = instituicao;
+document.getElementById('emailAssinatura').value = assinatura;
+document.getElementById('emailMensagem').value = mensagem;
+document.getElementById('emailTitulo').value = titulo;
+document.getElementById('emailPara').value = para;
 }
 function M(a) {
     console.log(a);
 }
-
+document.getElementById('alunosFiltrados').addEventListener('keypress', e => { if (e.key == "Enter") { filtragem(true); } });
 document.getElementById('telaInicial').scrollIntoView();

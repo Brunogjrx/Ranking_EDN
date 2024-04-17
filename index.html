@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,178 +7,264 @@
     <meta name="author" content="Thiago Silva, Ana Luiza, Bruno Guimaraes" />
     <meta name="description" content="Site para ajudar professores da Escola da Nuvem" />
     <meta name="keywords" content="csv, rank, escola da nuvem" />
-    <link rel="icon" type="image/x-icon" href="./src/rank.png" />
+    <link rel="icon" type="image/x-icon" href="./src/premio1.png" />
     <link rel="stylesheet" href="style.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
         integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
         defer crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script defer src="script.js"></script>
 </head>
-
 <body>
     <input type="file" id="abrirArquivo" accept=".csv" style="display: none;" />
+    <dialog id="ajuda">
+        <div style="display: block; height: 100%; max-height: 100%;" class="abaConteudo">
+            <button id="ajudaSair" onclick="document.getElementById('ajuda').close()">x</button>
+            <h3>Ajuda</h3>
+            <p>- Titulo e Subtitulo não são obrigatórios
+                </br></br>- 0 (Zero) como valor de Semana é uma opção
+                </br></br>- A versão acima mostrara o Histórico das versões
+                </br></br>- Ao carregar o .CSV aparecerá o ranking e opções, inclundo ferramentas para professores
+                (básico)
+                </br></br>- Em ferramentas para professores, você poderá enviar emails individuais (clicando no email do
+                aluno) ou
+                para todos com notas abaixo do limite
+            </p>
+        </div>
+    </dialog>
+    <dialog id="erro">
+        <div>
+            <button onclick="document.getElementById('erro').close();">x</button>
+            <p>Preenchas todos os campos corretamente</br>
+                </br>
+                - Nº de Colunas: 1 a 15</br>
+                - Nº de Semana: 0 a 53</br>
+                - Nº de Alunos: 1 ou +</br>
+                - O nome do Professor deve ter ao menos 1 caractere!</p>
+        </div>
+    </dialog>
     <section id="telaInicial">
-        <dialog id="erro">
-            <div>
-                <button onclick="document.getElementById('erro').close();">x</button>
-                <p>Preenchas todos os campos corretamente</br>
-                    </br>
-                    - Nº de Colunas: 1 a 15</br>
-                    - Nº de Semana: 1 a 53</br>
-                    - Nº de Alunos: 1 ou +</br>
-                    - O nome do Professor deve ter ao menos 1 caractere!</p>
+        <div id="corpo">
+            <dialog id="versionador">
+                <div id="versoes" class="abaMenu">
+                    <button class="abaLinks" onclick="Aba(event, 'v10', '#versionador', '#versoes', true)">1.0</button>
+                    <button class="abaLinks" onclick="Aba(event, 'v20', '#versionador','#versoes', true)">2.0</button>
+                    <button class="abaLinks" onclick="Aba(event, 'v21', '#versionador','#versoes', true)">2.1</button>
+                    <button class="abaLinks" onclick="Aba(event, 'v22', '#versionador','#versoes', true)">2.2</button>
+                    <button style="background-color: #0003; width: fit-content;"
+                        onclick="document.getElementById('versionador').close()">x</button>
+                </div>
+                <div id="v10" class="abaConteudo">
+                    <h3>1.0 : Versão original - Raysa e Ana</h3>
+                    <p>- Idealização do ferramentasProfessor. Bruno da Escola da Nuvem</br>- Projeto iniciado pela Raysa e Ana</p>
+                </div>
+                <div id="v20" class="abaConteudo">
+                    <h3>2.0 : Versão reformulada - Thiago</h3>
+                    <p>- Com permissão do Bruno, Thiago refez tudo e deu continuidade do projeto</br>- Essa versão foi a
+                        primeira a ser publicada no
+                        Linkedin</p>
+                </div>
+                <div id="v21" class="abaConteudo">
+                    <h3>2.1 : Versão 1 pós publicação - Thiago</h3>
+                    <p>- Com as 1ªs melhorias pós publicação no Linkedin foi adicionado o seguinte:</p></br>
+                    <p>
+                        <span id="spanTitulo">[HTML/Imagem]</span>
+                        </br> - Favicon
+                        </br> - Logo da Escola da Nuvem adicionado a tela do Ranking
+                        <span id="spanTitulo"></br>[HTML/CSS/JS]</span>
+                        </br> - Adicionados campos: Titulo, subtítulo, professor e semana
+                        </br> - Histórico das versões (este)
+                        </br> - Adicionado botão e função para copiar lista de alunos para a Área de Transferência
+                        (Ctrl+C)
+                        </br> - Validador de Campos aperfeiçoado, agora com mensagem de erro personalizada
+                        </br> - Adicionado botão e função para copiar lista de alunos com menos de 70% para a Área de
+                        Transferência (Ctrl+C)
+                        <span id="spanTitulo"></br>[HTML/CSS]</span>
+                        </br> - Layout adaptado aos novos campos
+                        </br> - Validação dos campos : fica vermelho até ser
+                        preenchido
+                        </br> - Posicionamento das imagens de créditos aprimorados
+                        <span id="spanTitulo"></br>[HTML]</span>
+                        </br> - Logos da Escola da Nuvem agora são links para o site da mesma
+                        </br> - Créditos requeridos no rodapé por direito de uso dos ícones
+                        <span id="spanTitulo"></br>[JS]</span>
+                        </br> - Validação dos campos
+                        </br> - Capitalização de textos (nome ou NOME > Nome)
+                </div>
+                <div id="v22" class="abaConteudo">
+                    <h3>2.2 : Versão 2 pós publicação - Thiago</h3>
+                    <p>- Varias melhorias feitas na versão 2.1 e novas ferramentas para professores:</p></br>
+                    <p>
+                        <span id="spanTitulo"></br>[HTML/CSS/JS]</span>
+                        - Número da semana do arquivo PNG do printscreen
+                        </br>- Correção de bugs ao lista alunos
+                        </br>- Otimização do código JS
+                        </br>- Agrupamento de ferramentas do professor
+                        </br>- Adicionado opção de envio de email para 1 ou todos os alunos com filtrados
+                        </br>- Filtro de notas
+                    </p>
+                </div>
+            </dialog>
+            <div id="logoEdNeV">
+                <a href="https://escoladanuvem.org/" target="_blank"><img src="./src/logo.png"
+                        alt="logo escola da nuvem" style="height: 100%; width: auto; margin-left: 2vh;"
+                        class="sombraImg"></a>
+                <a href="#" id="Versao" onclick="Abas('versionador', 'versoes', '3')"
+                    title="Histórico das versões">2.2</a>
             </div>
-        </dialog>
-        <dialog id="versionador">
-            <div id="versoes">
-                <button class="tablinks" onclick="funVersionador(event, true, 'v10')">1.0</button>
-                <button class="tablinks" onclick="funVersionador(event, true, 'v20')">2.0</button>
-                <button class="tablinks" onclick="funVersionador(event, true, 'v21')">2.1</button>
-                <button style="background-color: #0003; width: fit-content;" onclick="Versao(false)">x</button>
-            </div>
-
-            <div id="v10" class="tabcontent">
-                <h3>1.0 Versão original - Raysa e Ana</h3>
-                <p>- Idealização do prof. Bruno da Escola da Nuvem</br>- Projeto iniciado pela Raysa e Ana</p>
-            </div>
-            <div id="v20" class="tabcontent">
-                <h3>2.0 Versão reformulada - Thiago</h3>
-                <p>- Com permissão do Bruno, Thiago refez tudo e deu continuidade do projeto</br>- Essa versão foi a
-                    primeira a ser publicada no
-                    Linkdin</p>
-            </div>
-
-            <div id="v21" class="tabcontent">
-                <h3>2.1 Versão 1 pós publicação - Thiago</h3>
-                <p>- Com as 1ªs melhorias pós publicação no Linkdin foi adicionado o seguinte:</p></br>
-                <p>
-                    <span>[HTML/Imagem]</span>
-                    </br> - Favicon
-                    </br> - Logo da Escola da Nuvem adicionado a tela do Ranking
-                    <span></br>[HTML/CSS/JS]</span>
-                    </br> - Adicionado campos Titulo, subtítulo, professor e semana
-                    </br> - Histórico das versões (este)
-                    </br> - Adicionado botão e função para copiar lista de alunos para a Área de Tranferência (Ctrl+C)
-                    </br> - Validador de Campos aperfeiçoado, agora com menssagem de erro personalizada
-                    </br> - Adicionado botão e função para copiar lista de alunos com menos de 70% para a Área de
-                    Tranferência (Ctrl+C)
-                    <span></br>[HTML/CSS]</span>
-                    </br> - Layout adaptado aos novos campos
-                    </br> - Validação dos campos : fica vermelho até ser
-                    preenchido
-                    </br> - Posicionamento das imagens de créditos aprimorada
-                    <span></br>[HTML]</span>
-                    </br> - Logos da Escola da Nuvem agora são links para o site da mesma
-                    </br> - Creditos requeridos no rodapé por direito de uso dos icones
-                    <span></br>[JS]</span>
-                    </br> - Validação dos campos
-                    </br> - Capitalização de textos (nome ou NOME > Nome)
-                </p>
-            </div>
-        </dialog>
-        <div id="logoEdNeV">
-            <a href="https://escoladanuvem.org/" target="_blank">
-                <img src="./src/logo.png" alt="logo escola da nuvem"
-                    style="height: 100%; width: auto; margin-left: 2vh;" class="sombraImg">
-            </a>
-            <a href="#" id="Versao"
-                style="font-size: x-large; font-weight: bolder; text-decoration: none; width: 10vw; display: flex;align-items: center; justify-content: center;"
-                onclick="Versao(true)" title="Histórico das versões">2.1</a>
-        </div>
-        <div id="divTelaI">
-            <div id="divTelaIOrgan">
-                <form id="opcoes">
-                    <div id="opcoesSup">
-                        <label for="texTitulo">Titulo</label>
-                        <input type="text" name="texTitulo" id="texTitulo" value="AWS re:Start - 1"
-                            title="Titulo do Rank" />
-                        <label for="textSubtitulo">Subtitulo</label>
-                        <input type="text" name="textSubtitulo" id="textSubtitulo" value="Ranking dos Alunos" />
-                    </div>
-                    <div id="opcoesInf">
-                        <div>
-                            <label for="texProfessor">Professor</label>
-                            <input type="text" name="texProfessor" id="texProfessor" value="" title="Nome do professor"
-                                required />
-                            <label for="numSemana">Semana</label>
-                            <input type="number" name="numSemana" id="numSemana" value="1" min="1" max="53" />
+            <div id="divTelaI">
+                <div id="divTelaIOrgan">
+                    <form id="opcoes">
+                        <div id="opcoesSup">
+                            <label for="texTitulo">Titulo</label>
+                            <input type="text" name="texTitulo" id="texTitulo" value="AWS re:Start - 1"
+                                title="Titulo do Rank" />
+                            <label for="textSubtitulo">Subtitulo</label>
+                            <input type="text" name="textSubtitulo" id="textSubtitulo" value="Ranking dos Alunos" />
                         </div>
-                        <div>
-                            <label for="numColunas">N Colunas</label>
-                            <input type="number" name="numColunas" id="numColunas" value="7"
-                                title="Quantidade de colunas" min="1" max="15" />
-                            <label for="numAlunos">N alunos</label>
-                            <input type="number" name="numAlunos" id="numAlunos" value="10"
-                                title="Quantidade de alunos por coluna" min="1" />
+                        <div id="opcoesInf">
+                            <div>
+                                <label for="texProfessor">Professor</label>
+                                <input type="text" name="texProfessor" id="texProfessor" value=""
+                                    title="Nome do professor" required />
+                                <label for="numSemana">Semana</label>
+                                <input type="number" name="numSemana" id="numSemana" value="1" min="0" max="53" />
+                            </div>
+                            <div>
+                                <label for="numColunas">N Colunas</label>
+                                <input type="number" name="numColunas" id="numColunas" value="7"
+                                    title="Quantidade de colunas" min="1" max="15" />
+                                <label for="numAlunos">N alunos</label>
+                                <input type="number" name="numAlunos" id="numAlunos" value="10"
+                                    title="Quantidade de alunos por coluna" min="1" />
+                            </div>
                         </div>
+                    </form>
+                    <div id="selecArquivo">
+                        <label for="arquivo" style="cursor: pointer;">Selecione o .CSV</label>
+                        <input type="image" src="./src/arquivo.png" alt="Carregar .CSV" name="arquivo" id="arquivo"
+                            onclick="document.getElementById('abrirArquivo').click();">
                     </div>
-                </form>
-                <div id="selecArquivo">
-                    <label for="arquivo" style="cursor: pointer;">Selecione o .CSV</label>
-                    <input type="image" src="./src/arquivo.png" alt="Carregar .CSV" name="arquivo" id="arquivo"
-                        onclick="document.getElementById('abrirArquivo').click();">
                 </div>
             </div>
-        </div>
-        <div id="creditosTelaInicial">
-            <div id="divCredIicial" style="display: flex; width: 100%; height: 100%;">
-                <div class="organizaCreditos" onmouseover="creditosVisiveis('#Thiago',true)"
-                    onmouseout="creditosVisiveis('#Thiago',false)">
-                    <p>Thiago</p>
-                    <div class="social" id="Thiago">
-                        <div>
-                            <a href="https://www.linkedin.com/in/thiago-cs/" target="_blank">Linkdin</a>
-                            <a href="https://github.com/ThiagoCS0" target="_blank" alt="Github"
-                                style="color: #FC3;">Github</a>
-                        </div>
-                        <img src="./src/soc-thiago.jpeg" alt="Thiago">
-                    </div>
-                </div>
-                <div class="organizaCreditos" onmouseover="creditosVisiveis('#Bruno',true)"
-                    onmouseout="creditosVisiveis('#Bruno',false)">
-                    <p>Bruno</p>
-                    <div class="social" id="Bruno">
-                        <div>
-                            <a href="https://www.linkedin.com/in/brunoguimaraesjr/" target="_blank">Linkdin</a>
-                            <a href="https://github.com/Brunogjrx/" target="_blank" style="color: #EEE;">Github</a>
-                        </div>
-                        <img src="./src/soc-bruno.jpeg" alt="Bruno">
-                    </div>
-                </div>
-                <div class="organizaCreditos" onmouseover="creditosVisiveis('#Ana',true)"
-                    onmouseout="creditosVisiveis('#Ana',false)">
-                    <p>Ana</p>
-                    <div class="social" id="Ana">
-                        <div>
-                            <a href="https://www.linkedin.com/in/ana-luiza-de-castro/" target="_blank">Linkdin</a>
-                            <a href="https://github.com/analuizadev" target="_blank" style="color: #F6B;">Github</a>
-                        </div>
-                        <img src="./src/soc-ana.jpeg" alt="Ana">
-                    </div>
-                </div>
-                <div class="organizaCreditos" onmouseover="creditosVisiveis('#Rayssa',true)"
-                    onmouseout="creditosVisiveis('#Rayssa',false)">
-                    <p>Rayssa</p>
-                    <div class="social" id="Rayssa">
-                        <div>
-                            <a href="https://www.linkedin.com/in/rayssa-vilaca/" target="_blank">Linkdin</a>
-                            <a href="https://github.com/RayVilaca" target="_blank" style="color: #3F4;">Github</a>
-                        </div>
-                        <img src="./src/soc-rayssa.jpeg" alt="Rayssa">
-                    </div>
-                </div>
+            <div id="ajudaDiv">
+                <img src="./src/ajuda.png" alt="Ajuda" id="ajudaIcon" title="Ajuda"
+                    onclick="document.getElementById('ajuda').showModal()">
             </div>
         </div>
-        <div
-            style="height: 30px; width: 100%; background-color: #013; justify-content: end; display: flex; align-items: center; padding: 0 20px;">
-            <a href="https://br.freepik.com/autor/freepik/icones/basic-straight-flat_3"
-                style="text-decoration: none; color: #CCC; font-size: large; "
-                title="Todos os icones foram baixados do site Freepik">Ícones de Freepik</a>
+        <div id="rodape">
+            <div id="creditosTelaInicial">
+                <div id="divCredIicial" style="display: flex; width: 100vw; height: 100%;">
+                    <div class="organizaCreditos" onmouseover="creditosVisiveis('#Thiago',true)"
+                        onmouseout="creditosVisiveis('#Thiago',false)">
+                        <p>Thiago</p>
+                        <div class="social" id="Thiago">
+                            <div>
+                                <a href="https://www.linkedin.com/in/thiago-cs/" target="_blank">Linkedin</a>
+                                <a href="https://github.com/ThiagoCS0" target="_blank" alt="Github"
+                                    style="color: #FC3;">Github</a>
+                            </div>
+                            <img src="./src/soc-thiago.jpeg" alt="Thiago">
+                        </div>
+                    </div>
+                    <div class="organizaCreditos" onmouseover="creditosVisiveis('#Bruno',true)"
+                        onmouseout="creditosVisiveis('#Bruno',false)">
+                        <p>Bruno</p>
+                        <div class="social" id="Bruno">
+                            <div>
+                                <a href="https://www.linkedin.com/in/brunoguimaraesjr/" target="_blank">Linkedin</a>
+                                <a href="https://github.com/Brunogjrx/" target="_blank" style="color: #EEE;">Github</a>
+                            </div>
+                            <img src="./src/soc-bruno.jpeg" alt="Bruno">
+                        </div>
+                    </div>
+                    <div class="organizaCreditos" onmouseover="creditosVisiveis('#Ana',true)"
+                        onmouseout="creditosVisiveis('#Ana',false)">
+                        <p>Ana</p>
+                        <div class="social" id="Ana">
+                            <div>
+                                <a href="https://www.linkedin.com/in/ana-luiza-de-castro/" target="_blank">Linkedin</a>
+                                <a href="https://github.com/analuizadev" target="_blank" style="color: #F6B;">Github</a>
+                            </div>
+                            <img src="./src/soc-ana.jpeg" alt="Ana">
+                        </div>
+                    </div>
+                    <div class="organizaCreditos" onmouseover="creditosVisiveis('#Rayssa',true)"
+                        onmouseout="creditosVisiveis('#Rayssa',false)">
+                        <p>Rayssa</p>
+                        <div class="social" id="Rayssa">
+                            <div>
+                                <a href="https://www.linkedin.com/in/rayssa-vilaca/" target="_blank">Linkedin</a>
+                                <a href="https://github.com/RayVilaca" target="_blank" style="color: #3F4;">Github</a>
+                            </div>
+                            <img src="./src/soc-rayssa.jpeg" alt="Rayssa">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="creditosRodape"><a href="https://br.freepik.com/autor/freepik/icones/basic-straight-flat_3"
+                    style="text-decoration: none; color: #CCC; font-size: large; "
+                    title="Todos os icones foram baixados do site Freepik">Ícones de Freepik</a>
+            </div>
         </div>
     </section>
     <section id="rank">
-        <a href="https://escoladanuvem.org/" target="_blank"
-            style="position: absolute; display: flex; justify-content: center; height: 5vh; width: 100%;">
+        <dialog id="ferramentasProfessor">
+            <div style="width: 100%; height: 50%;">
+                <div id="titulosAbasProf" class="abaMenu">
+                    <button class="abaLinks" onclick="Aba(event, 'listOrd', '#ferramentasProfessor > div', '#titulosAbasProf', true)">Lista</button>
+                    <button class="abaLinks" onclick="Aba(event, 'filtrados', '#ferramentasProfessor > div', '#titulosAbasProf', true)">Filtrar</button>
+                    <button style="background-color: #0003; width: fit-content;" onclick="document.getElementById('ferramentasProfessor').close()">x</button>
+                </div>
+                <div id="listOrd" class="abaConteudo">
+                    <h3>Todos os Alunos <button class="icones" style="background-image: url('./src/copiar.png');"
+                            title="Copiar"
+                            onclick="areaTransferencia(null,'alunosTodos')"></button>
+                    </h3>
+                    <p></p>
+                </div>
+                <div id="filtrados" class="abaConteudo">
+                    <div id="div1Filtrados">
+                        <h3><label for="alunosFiltrados">Alunos com menos de
+                                <input id="alunosFiltrados" type="text" placeholder="70" value="70"> %
+                                <button class="icones" style="background-image: url('./src/filtro.png');"
+                                    onclick="filtragem(true)"></button>
+                            </label>
+                            <div id="opcoesAluno">
+                                <button class="icones" style="background-image: url('./src/copiar.png');" title="Copiar"
+                                    onclick="areaTransferencia(null,'alunosFiltrados')"></button>
+                                <button class="icones" id="emailVer" style="background-image: url('./src/email.png');"
+                                    title="Enviar e-mails" onclick="emailDiv()"></button>
+                            </div>
+                        </h3>
+                        <p></p>
+                    </div>
+                    <div id="div2Filtrados">
+                        <label for="emailTitulo" title="Titulo">Titulo<input type="text" name="Titulo" id="emailTitulo"
+                                value="" autocomplete="on" placeholder="Titulo" class="emailValores"></label>
+                        <textarea name="Mensagem" title="Mensagem" id="emailMensagem" autocomplete="on"
+                            placeholder="Mensagem" cols="30" rows="10" class="emailValores"></textarea>
+                        <label for="emailAssinatura" title="Sua assinatura">Assinatura<input type="text"
+                                name="Assinatura" id="emailAssinatura" placeholder="Assinatura" value=""
+                                autocomplete="on" class="emailValores"></label>
+                        <label for="emailInstituicao" title="Instituição que você faz parte">Instituição<input
+                                type="text" name="Instituicao" id="emailInstituicao" placeholder="Instituição" value=""
+                                class="emailValores"></label>
+                        <label for="emailPara" title="Quem receberá o email">Para<input type="text" name="Para"
+                                id="emailPara" placeholder="Quem receberá o email" autocomplete="on" value=""
+                                class="emailValores"></label>
+                        <div style="z-index: 9999;">
+                            <button class="icones" style="background-image: url('./src/emailLimpar.png');"
+                                title="Limpar e-mails" onclick="emails(null, null)"></button>
+                            <button class="icones" style="background-image: url('./src/emailPadrao.png');"
+                                title="Padrão escola da nuvem" onclick="emailPadrao('')"></button>
+                            <button class="icones" style="background-image: url('./src/emailEnviar.png');"
+                                title="Enviar e-mails" onclick="emails(null,true)"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </dialog>
+        <a href="https://escoladanuvem.org/" target="_blank" id="escoladanuvemIcone2">
             <img src="./src/logo.png" alt="Escola da Nuvem" class="sombraImg" title="Escola da Nuvem"></a>
         <div id="ferramentas">
             <a href="#" onclick="Inicio()">
@@ -187,10 +272,8 @@
             <div>
                 <a href="#rank" onclick="Fotos()">
                     <img src="./src/foto.png" alt="Salvar Grafico" class="sombraImg" title="Salvar PNG do Grafico"></a>
-                <a href="#rank" onclick="areaTransferencia('',true)">
-                    <img src="./src/copiar.png" alt="Copiar" class="sombraImg" title="Área de transferência"></a>
-                <a href="#rank" onclick="filtragem()">
-                    <img src="./src/meno70.png" alt="Aluno-70" class="sombraImg" title="Alunos com menos de 70%"></a>
+                <a href="#rank" onclick="Abas('ferramentasProfessor','titulosAbasProf','0')"> <img src="./src/menu.png"
+                        alt="Aluno-70" class="sombraImg" title="Alunos com menos de 70%"></a>
             </div>
         </div>
         <div id="titulo">
@@ -203,11 +286,10 @@
             </div>
             <img src="./src/coroa.png" alt="coroas">
         </div>
-        <div id="classificarPai">
+        <div id="divClassificar">
             <div id="classificar">
             </div>
         </div>
     </section>
 </body>
-
 </html>
