@@ -101,6 +101,8 @@
                         </br>- Agrupamento de ferramentas do professor
                         </br>- Adicionado opção de envio de email para 1 ou todos os alunos com filtrados
                         </br>- Filtro de notas
+                        </br>- Correção de bug
+                        </br>- Filtro de Alunos por porcentagem e ordem Alfabetica
                     </p>
                 </div>
             </dialog>
@@ -216,9 +218,7 @@
                     <button style="background-color: #0003; width: fit-content;" onclick="document.getElementById('ferramentasProfessor').close()">x</button>
                 </div>
                 <div id="listOrd" class="abaConteudo">
-                    <h3>Todos os Alunos <button class="icones" style="background-image: url('./src/copiar.png');"
-                            title="Copiar"
-                            onclick="areaTransferencia(null,'alunosTodos')"></button>
+                    <h3>Todos os Alunos <button class="icones" style="background-image: url('./src/copiar.png');" title="Copiar" onclick="areaTransferencia(null,'alunosTodos')"></button><button class="icones" id="filtroOrdemAZ" style="background-image: url('./src/filtroAZ.png');" title="Filtrar" onclick="filtrar()"></button>
                     </h3>
                     <p></p>
                 </div>

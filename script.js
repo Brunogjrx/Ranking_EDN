@@ -1,8 +1,9 @@
 const inicioTitulo = document.getElementById('texTitulo'), inicioSubtitulo = document.getElementById('textSubtitulo'), inicioProfessor = document.getElementById('texProfessor'), inicioSemana = document.getElementById('numSemana'), inicioColunas = document.getElementById('numColunas'), inicioAlunos = document.getElementById('numAlunos'),
     rankTitulo = document.getElementById('stitulo'), rankSubtitulo = document.getElementById('ssubtitulo'), rankProfessor = document.getElementById('sprof'), rankSala = document.getElementById('salas'),
     preposicoes = ["da", "das", "de", "di", "do", "dos"], areaFotografada = document.getElementById('rank'),
-    abrir = document.getElementById('abrirArquivo');
-let alunosParaClipboard = '', alunosFiltrados = '', listaFiltrados='', quantidadeColunas = 0, semanas = '', listaFiltradosEmails = '';
+    abrir = document.getElementById('abrirArquivo'),
+    alunosOrdemAZ = document.querySelector('#listOrd > p');
+let alunosParaClipboard = '', alunosFiltrados = '', listaFiltrados = '', quantidadeColunas = 0, semanas = '', listaFiltradosEmails = '', listaOrdenada = [], filtroAZ = false;
 abrir.addEventListener('change', (event) => {
     if (validarCampos()) { return; }
     quantidadeColunas = parseInt(inicioColunas.value);
@@ -26,14 +27,14 @@ abrir.addEventListener('change', (event) => {
         porcetagem = listaJaFiltrada[linhas[0].split(',').indexOf('Current Score')];
         if (!(porcetagem.indexOf(",") < -1)) {
             listaAlunos += porcetagem.split(',')[0].replace(/"/g, '') + "\n";
-            listaNomesCompletos += porcetagem.split(',')[0].replace(/"/g, '') + "\n";
-            alunosFiltrados += porcetagem.split(',')[0].replace(/"/g, '') + "\n";
+            listaNomesCompletos += porcetagem.split(',')[0].replace(/"/g, '') + "%\n";
+            alunosFiltrados += porcetagem.split(',')[0].replace(/"/g, '') + "%\n";
         } else {
             listaAlunos += porcetagem.replace(/"/g, '') + "\n";
             listaNomesCompletos += porcetagem.replace(/"/g, '') + "%\n";
             alunosFiltrados += porcetagem.replace(/"/g, '') + "%\n";
         }
-        for (let i = 2; i < linhas.length - 2; i++) {
+        for (let i = 3; i < linhas.length - 2; i++) {
             listaJaFiltrada = linhas[i].replace(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/g, '; ').split('; ');
             separandoNomeParaOrganizar = listaJaFiltrada[0].replace(/"/g, '').split(',');
             listaAlunos += formatacaoCaixa(separandoNomeParaOrganizar[1].trim() + ' ' + separandoNomeParaOrganizar[0].trim(), false) + ';' + listaJaFiltrada[linhas[0].split(',').indexOf('Section')] + ';';
@@ -48,7 +49,7 @@ abrir.addEventListener('change', (event) => {
                 listaAlunos += porcetagem.replace(/"/g, '') + "\n"; listaNomesCompletos += porcetagem.replace(/"/g, '') + "%\n"; alunosFiltrados += porcetagem.replace(/"/g, '') + "%\n";
             }
         }
-        let novo = true, id = 0, lista2Alunos = listaAlunos.split('\n');
+        let novo = true, id = 0, lista2Alunos = listaAlunos.split('\n'), contador = 0;
         lista2Alunos = lista2Alunos.splice(0, lista2Alunos.length - 1);
         alunosParaClipboard = listaLimpa(listaNomesCompletos);
         alunosFiltrados = listaLimpa(alunosFiltrados);
@@ -56,17 +57,21 @@ abrir.addEventListener('change', (event) => {
 
         for (let nota = 100; nota > 0; nota--) {
             for (let alunos = 0; alunos < lista2Alunos.length; alunos++) {
-                let colunas = lista2Alunos[alunos].split(';')
+                let colunas = lista2Alunos[alunos].split(';'), linhaTemporaria = '';
                 if (colunas[2] == nota) {
                     novo == true && (id++, (novo = false));
-                    novasLinhas.push(id + ',' + lista2Alunos[alunos].trim().replace(/;/g, ','));
+                    linhaTemporaria = lista2Alunos[alunos].trim().replace(/;/g, ',')
+                    listaOrdenada.push(linhaTemporaria.split(',')[0] + ',' + linhaTemporaria.split(',')[2] + '%')
+                    novasLinhas.push(id + ',' + linhaTemporaria);
                     continue;
                 }
             }
             novo = true
         }
+        listaOrdenada.forEach(e => { if (contador == 0) { linhaTemporaria = e + '\n'; contador++ } else { linhaTemporaria += e + '\n'; } });
         rankSala.innerText = novasLinhas[0].split(',')[2]
         classificacao(novasLinhas)
+        listaOrdenada = linhaTemporaria;
     }
     ler.onerror = function () {
         console.error('Erro ao ler o arquivo')
@@ -137,7 +142,7 @@ function classificacao(lista) {
 }
 function Inicio() {
     setTimeout(() => { history.replaceState('', document.title, window.location.origin + window.location.pathname + window.location.search) }, 5)
-    setTimeout(()=>{document.getElementById('rank').style.display = 'none';},"1000");
+    setTimeout(() => { document.getElementById('rank').style.display = 'none'; }, "1000");
 }
 function creditosVisiveis(elem, visivel) {
     if (visivel) {
@@ -149,7 +154,7 @@ async function Fotos() {
         let fotoDownload = document.createElement("a");
         fotoDownload.style = "display: none";
         const foto = canvas.toDataURL(), fotosSemana = '';
-        if(inicioSemana.value == '0'){fotosSemana = `- Semana ${semanas}`;}
+        if (inicioSemana.value == '0') { fotosSemana = `- Semana ${semanas}`; }
         fotoDownload.href = foto;
         fotoDownload.download = `${rankSala.innerText} - ${rankProfessor.innerText}${fotosSemana}.png`;
         document.body.appendChild(fotoDownload);
@@ -166,20 +171,18 @@ function Aba(aba, janelaAtiva, elementoDialog, menu, esteElemento) {
     let id, abaLinks = document.querySelectorAll(menu + '> button'), abaConteudo = document.querySelectorAll(elementoDialog + '> .abaConteudo');
     for (id = 0; id < abaLinks.length; id++) { abaLinks[id].className = abaLinks[id].className.replace(' active', ''); }
     if (esteElemento) { aba.currentTarget.className += ' active'; } else { aba.className += ' active'; }
-    M(abaConteudo.length);
-    for (id = 0; id < abaConteudo.length; id++) { 
-        M(">>"+abaConteudo[id].style.display);
-        abaConteudo[id].style.display = 'none'; 
+    for (id = 0; id < abaConteudo.length; id++) {
+        abaConteudo[id].style.display = 'none';
     }
     document.getElementById(janelaAtiva).style.display = 'block';
 }
 function areaTransferencia(texto, opcao) {
     let textoACopiar = texto;
-        switch(opcao){
-            case 'alunosFiltrados':filtragem(false); if(listaFiltrados.length>0){textoACopiar = listaFiltrados;} break;
-            case 'alunosTodos':if(alunosParaClipboard.length>0){textoACopiar = alunosParaClipboard;}break;
-            default: if(textoACopiar.length<1){return};
-        }
+    switch (opcao) {
+        case 'alunosFiltrados': filtragem(false); if (listaFiltrados.length > 0) { textoACopiar = listaFiltrados; } break;
+        case 'alunosTodos': if (alunosParaClipboard.length > 0) { textoACopiar = alunosParaClipboard; } break;
+        default: if (textoACopiar.length < 1) { return };
+    }
     navigator.clipboard.writeText(textoACopiar);
 }
 function formatacaoCaixa(texto, b) {
@@ -202,23 +205,23 @@ function validarCampos() {
     return true;
 }
 function filtragem(exibir) {
-    if(exibir){document.getElementById('div2Filtrados').style.display = 'none';}
+    if (exibir) { document.getElementById('div2Filtrados').style.display = 'none'; }
     let l = alunosFiltrados.split('\n'), primeiro = true, t = '';
     listaFiltrados = '';
     const p = document.querySelector('#div1Filtrados > p'), valor = document.getElementById('alunosFiltrados').value;
-    if(exibir){p.innerHTML = "";}
+    if (exibir) { p.innerHTML = ""; }
     l.forEach((e) => {
         t = e.split(';');
         if (parseInt(t[2]) < valor) {
             if (primeiro) {
                 listaFiltradosEmails = t[1] + '\n';
                 listaFiltrados = `Alunos com menos de ${valor}%\n\n\nNome: ${t[0]}\nEmail: ${t[1]}\nNota: ${t[2]}%\n`;
-                if(exibir){p.innerHTML = `Nome: ${t[0]}</br>Email: <span id="spanEmail" onclick="emails('${t[1]}',false)">${t[1]}</span></br>Nota: ${t[2]}%</br></br>`;}
+                if (exibir) { p.innerHTML = `Nome: ${t[0]}</br>Email: <span id="spanEmail" onclick="emails('${t[1]}',false)">${t[1]}</span></br>Nota: ${t[2]}%</br></br>`; }
                 primeiro = false;
             } else {
                 listaFiltradosEmails += t[1] + '\n';
                 listaFiltrados += `Nome: ${t[0]}\nEmail: ${t[1]}\nNota: ${t[2]}%\n\n`;
-                if(exibir){p.innerHTML += `Nome: ${t[0]}</br>Email: <span id="spanEmail" onclick="emails('${t[1]}',false)">${t[1]}</span></br>Nota: ${t[2]}%</br></br>`;}
+                if (exibir) { p.innerHTML += `Nome: ${t[0]}</br>Email: <span id="spanEmail" onclick="emails('${t[1]}',false)">${t[1]}</span></br>Nota: ${t[2]}%</br></br>`; }
             }
         }
     });
@@ -231,20 +234,20 @@ function listaLimpa(lista) {
     return r.join('\n');
 }
 function emails(email, maisDeUm) {
-    if(maisDeUm == null){document.querySelectorAll('.emailValores').forEach(valores=>{valores.value='';}); return;};
-    if(!maisDeUm){
+    if (maisDeUm == null) { document.querySelectorAll('.emailValores').forEach(valores => { valores.value = ''; }); return; };
+    if (!maisDeUm) {
         emailPadrao(email);
     }
     let tipo = "to", instituicao = document.getElementById('emailInstituicao').value,
-    assinatura = document.getElementById('emailAssinatura').value,
-    mensagem = document.getElementById('emailMensagem').value,
-    titulo = document.getElementById('emailTitulo').value,
-    para = document.getElementById('emailPara').value;
+        assinatura = document.getElementById('emailAssinatura').value,
+        mensagem = document.getElementById('emailMensagem').value,
+        titulo = document.getElementById('emailTitulo').value,
+        para = document.getElementById('emailPara').value;
     mensagem = mensagem.replace(/%/g, '%25').replace(/\n/g, '%0D%0A');
     mensagem += `%0D%0A%0D%0A${assinatura}%0D%0A%0D%0A${instituicao}%0D%0A`;
     if (maisDeUm) { tipo = 'bcc'; }
     window.open(`https://mail.google.com/mail/?view=cm&fs=1&${tipo}=${para}&su=${titulo}&body=${mensagem}`, "_blank");
-    emails(null,null);
+    emails(null, null);
 }
 function emailDiv() {
     emailPadrao('');
@@ -252,10 +255,10 @@ function emailDiv() {
     document.querySelector('#div1Filtrados > p').innerText = '';
     divEmail.style.display = divEmail.style.display == 'flex' ? 'none' : 'flex';
 }
-function emailPadrao(paraUm){
+function emailPadrao(paraUm) {
     filtragem(false);
-    let titulo='Alerta de baixo desempenho!',
-    mensagem=`Caro aluno(a),
+    let titulo = 'Alerta de baixo desempenho!',
+        mensagem = `Caro aluno(a),
 
 Espero que esta mensagem o encontre bem. Gostaria de conversar um pouco sobre seu desempenho acadêmico recente. Tenho notado que sua nota atual está abaixo do esperado, e é importante abordarmos isso juntos.
 
@@ -270,17 +273,30 @@ Lembre-se de que cada desafio é uma oportunidade de crescimento e desenvolvimen
 Por favor, não hesite em entrar em contato comigo para discutir quaisquer preocupações ou para agendar uma reunião pessoalmente. Estou aqui para ajudá-lo a ter sucesso.
 
 Atenciosamente`,
-assinatura=rankProfessor.innerText,
-instituicao='AWS re/Start Accredited Instructor',
-para=paraUm.length>0?paraUm:listaFiltradosEmails;
-document.getElementById('emailInstituicao').value = instituicao;
-document.getElementById('emailAssinatura').value = assinatura;
-document.getElementById('emailMensagem').value = mensagem;
-document.getElementById('emailTitulo').value = titulo;
-document.getElementById('emailPara').value = para;
+        assinatura = rankProfessor.innerText,
+        instituicao = 'AWS re/Start Accredited Instructor',
+        para = paraUm.length > 0 ? paraUm : listaFiltradosEmails;
+    document.getElementById('emailInstituicao').value = instituicao;
+    document.getElementById('emailAssinatura').value = assinatura;
+    document.getElementById('emailMensagem').value = mensagem;
+    document.getElementById('emailTitulo').value = titulo;
+    document.getElementById('emailPara').value = para;
 }
-function M(a) {
-    console.log(a);
+function filtrar() {
+    let filtroOrdemAZ = document.getElementById('filtroOrdemAZ');
+    if (alunosOrdemAZ.innerText.length > 0) {
+        if (filtroAZ) {
+            alunosOrdemAZ.innerText = alunosParaClipboard;
+            filtroOrdemAZ.style.backgroundImage = ("url('./src/filtroAZ.png')");
+        } else {
+            alunosOrdemAZ.innerText = listaOrdenada;
+            filtroOrdemAZ.style.backgroundImage = ("url('./src/filtroPorcentagem.png')");
+        }
+        filtroAZ = !filtroAZ;
+    }
+}
+function M(mensagem) {
+    console.log(mensagem);
 }
 document.getElementById('alunosFiltrados').addEventListener('keypress', e => { if (e.key == "Enter") { filtragem(true); } });
 document.getElementById('telaInicial').scrollIntoView();

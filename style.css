@@ -121,6 +121,17 @@ section {
     width: 80%;
 }
 
+
+#listOrd p{
+    user-select: text;
+}
+
+#listOrd p::selection{
+    background-color:#0BF;
+    font-weight: bolder;
+    color: #024;
+}
+
 dialog {
     -webkit-transform: translateX(-50%);
     -moz-transform: translateX(-50%);
