@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,11 +10,10 @@
     <meta name="keywords" content="csv, rank, escola da nuvem" />
     <link rel="icon" type="image/x-icon" href="./src/premio1.png" />
     <link rel="stylesheet" href="style.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
-        integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
-        defer crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" defer crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
     <script defer src="script.js"></script>
 </head>
+
 <body>
     <input type="file" id="abrirArquivo" accept=".csv" style="display: none;" />
     <dialog id="ajuda">
@@ -55,7 +55,8 @@
                 </div>
                 <div id="v10" class="abaConteudo">
                     <h3>1.0 : Versão original - Raysa e Ana</h3>
-                    <p>- Idealização do ferramentasProfessor. Bruno da Escola da Nuvem</br>- Projeto iniciado pela Raysa e Ana</p>
+                    <p>- Idealização do ferramentasProfessor. Bruno da Escola da Nuvem</br>- Projeto iniciado pela Raysa
+                        e Ana</p>
                 </div>
                 <div id="v20" class="abaConteudo">
                     <h3>2.0 : Versão reformulada - Thiago</h3>
@@ -103,6 +104,7 @@
                         </br>- Filtro de notas
                         </br>- Correção de bug
                         </br>- Filtro de Alunos por porcentagem e ordem Alfabetica
+                        </br>- Área de alunos copiável
                     </p>
                 </div>
             </dialog>
@@ -211,14 +213,20 @@
     </section>
     <section id="rank">
         <dialog id="ferramentasProfessor">
-            <div style="width: 100%; height: 50%;">
+            <div id="ferramentasProfessorDiv">
                 <div id="titulosAbasProf" class="abaMenu">
-                    <button class="abaLinks" onclick="Aba(event, 'listOrd', '#ferramentasProfessor > div', '#titulosAbasProf', true)">Lista</button>
-                    <button class="abaLinks" onclick="Aba(event, 'filtrados', '#ferramentasProfessor > div', '#titulosAbasProf', true)">Filtrar</button>
-                    <button style="background-color: #0003; width: fit-content;" onclick="document.getElementById('ferramentasProfessor').close()">x</button>
+                    <button class="abaLinks"
+                        onclick="Aba(event, 'listOrd', '#ferramentasProfessor > div', '#titulosAbasProf', true)">Lista</button>
+                    <button class="abaLinks"
+                        onclick="Aba(event, 'filtrados', '#ferramentasProfessor > div', '#titulosAbasProf', true)">Filtrar</button>
+                    <button style="background-color: #0003; width: fit-content;"
+                        onclick="document.getElementById('ferramentasProfessor').close()">x</button>
                 </div>
                 <div id="listOrd" class="abaConteudo">
-                    <h3>Todos os Alunos <button class="icones" style="background-image: url('./src/copiar.png');" title="Copiar" onclick="areaTransferencia(null,'alunosTodos')"></button><button class="icones" id="filtroOrdemAZ" style="background-image: url('./src/filtroAZ.png');" title="Filtrar" onclick="filtrar()"></button>
+                    <h3>Todos os Alunos <button class="icones" style="background-image: url('./src/copiar.png');"
+                            title="Copiar" onclick="areaTransferencia(null,'alunosTodos')"></button><button
+                            class="icones" id="filtroOrdemAZ" style="background-image: url('./src/filtroAZ.png');"
+                            title="Filtrar" onclick="filtrar()"></button>
                     </h3>
                     <p></p>
                 </div>
@@ -254,11 +262,11 @@
                                 class="emailValores"></label>
                         <div style="z-index: 9999;">
                             <button class="icones" style="background-image: url('./src/emailLimpar.png');"
-                                title="Limpar e-mails" onclick="emails(null, null)"></button>
+                                title="Limpar e-mails" onclick="emailG(null, null)"></button>
                             <button class="icones" style="background-image: url('./src/emailPadrao.png');"
                                 title="Padrão escola da nuvem" onclick="emailPadrao('')"></button>
                             <button class="icones" style="background-image: url('./src/emailEnviar.png');"
-                                title="Enviar e-mails" onclick="emails(null,true)"></button>
+                                title="Enviar e-mails" onclick="emailG(null,true)"></button>
                         </div>
                     </div>
                 </div>
@@ -292,4 +300,5 @@
         </div>
     </section>
 </body>
+
 </html>

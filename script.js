@@ -5,6 +5,8 @@ const inicioTitulo = document.getElementById('texTitulo'), inicioSubtitulo = doc
     alunosOrdemAZ = document.querySelector('#listOrd > p');
 let alunosParaClipboard = '', alunosFiltrados = '', listaFiltrados = '', quantidadeColunas = 0, semanas = '', listaFiltradosEmails = '', listaOrdenada = [], filtroAZ = false;
 abrir.addEventListener('change', (event) => {
+    listaOrdenada = [];
+    M('---- T ----')
     if (validarCampos()) { return; }
     quantidadeColunas = parseInt(inicioColunas.value);
     rankTitulo.innerText = inicioTitulo.value;
@@ -72,6 +74,8 @@ abrir.addEventListener('change', (event) => {
         rankSala.innerText = novasLinhas[0].split(',')[2]
         classificacao(novasLinhas)
         listaOrdenada = linhaTemporaria;
+        abrir.value = ''
+
     }
     ler.onerror = function () {
         console.error('Erro ao ler o arquivo')
@@ -82,14 +86,14 @@ abrir.addEventListener('change', (event) => {
 function classificacao(lista) {
     document.querySelectorAll("#classificar > div").forEach((el) => { el.remove(); });
     const classf = document.getElementById("classificar");
-    classf.style.gap = `${(10 / quantidadeColunas)}vw`;
+    classf.style.gap = `${(2 / quantidadeColunas)}vw`;
     let divClassf = imgClassf = p1Classf = p2Classf = imgUrl = null, alturaCalc = 0, diferencaAltura = 10;
     for (let i = 0; i < quantidadeColunas; i++) {
         divClassf = document.createElement("div");
         divClassf.id = "c" + (i + 1);
         diferencaAltura = alturaCalc < 60 ? 4 : diferencaAltura;
         alturaCalc = 100 - (i * diferencaAltura);
-        divClassf.style.cssText = `height: ${alturaCalc}%; width: ${100 / quantidadeColunas}%;`;
+        divClassf.style.cssText = `height: ${alturaCalc}%; width: 100%;`;
         imgClassf = document.createElement("img");
         imgClassf.className = "sombraImg";
         imgClassf.id = "img" + i + 1;
@@ -137,10 +141,12 @@ function classificacao(lista) {
         }
     }
     document.getElementById("opcoes").reset();
+    setTimeout(() => { document.getElementById('telaInicial').style.display = 'none'; }, "1000");
     document.getElementById('rank').style.display = 'flex';
     document.getElementById('rank').scrollIntoView()
 }
 function Inicio() {
+    document.getElementById('telaInicial').style.display = 'flex';
     setTimeout(() => { history.replaceState('', document.title, window.location.origin + window.location.pathname + window.location.search) }, 5)
     setTimeout(() => { document.getElementById('rank').style.display = 'none'; }, "1000");
 }
@@ -180,10 +186,10 @@ function areaTransferencia(texto, opcao) {
     let textoACopiar = texto;
     switch (opcao) {
         case 'alunosFiltrados': filtragem(false); if (listaFiltrados.length > 0) { textoACopiar = listaFiltrados; } break;
-        case 'alunosTodos': if (alunosParaClipboard.length > 0) { textoACopiar = alunosParaClipboard; } break;
+        case 'alunosTodos': if(alunosOrdemAZ.innerText.length>0){textoACopiar = alunosOrdemAZ.innerText; }; break;
         default: if (textoACopiar.length < 1) { return };
     }
-    navigator.clipboard.writeText(textoACopiar);
+    if(textoACopiar.length>0){navigator.clipboard.writeText(textoACopiar);}
 }
 function formatacaoCaixa(texto, b) {
     let nome = '';
@@ -216,12 +222,12 @@ function filtragem(exibir) {
             if (primeiro) {
                 listaFiltradosEmails = t[1] + '\n';
                 listaFiltrados = `Alunos com menos de ${valor}%\n\n\nNome: ${t[0]}\nEmail: ${t[1]}\nNota: ${t[2]}%\n`;
-                if (exibir) { p.innerHTML = `Nome: ${t[0]}</br>Email: <span id="spanEmail" onclick="emails('${t[1]}',false)">${t[1]}</span></br>Nota: ${t[2]}%</br></br>`; }
+                if (exibir) { p.innerHTML = `Nome: ${t[0]}</br>Email: <span id="spanEmail" onclick="emailG('${t[1]}',false)">${t[1]}</span></br>Nota: ${t[2]}%</br></br>`; }
                 primeiro = false;
             } else {
                 listaFiltradosEmails += t[1] + '\n';
                 listaFiltrados += `Nome: ${t[0]}\nEmail: ${t[1]}\nNota: ${t[2]}%\n\n`;
-                if (exibir) { p.innerHTML += `Nome: ${t[0]}</br>Email: <span id="spanEmail" onclick="emails('${t[1]}',false)">${t[1]}</span></br>Nota: ${t[2]}%</br></br>`; }
+                if (exibir) { p.innerHTML += `Nome: ${t[0]}</br>Email: <span id="spanEmail" onclick="emailG('${t[1]}',false)">${t[1]}</span></br>Nota: ${t[2]}%</br></br>`; }
             }
         }
     });
@@ -233,7 +239,7 @@ function listaLimpa(lista) {
     l.forEach(e => { if (e.length > 1) { r.push(e) }; });
     return r.join('\n');
 }
-function emails(email, maisDeUm) {
+function emailG(email, maisDeUm) {
     if (maisDeUm == null) { document.querySelectorAll('.emailValores').forEach(valores => { valores.value = ''; }); return; };
     if (!maisDeUm) {
         emailPadrao(email);
@@ -247,7 +253,7 @@ function emails(email, maisDeUm) {
     mensagem += `%0D%0A%0D%0A${assinatura}%0D%0A%0D%0A${instituicao}%0D%0A`;
     if (maisDeUm) { tipo = 'bcc'; }
     window.open(`https://mail.google.com/mail/?view=cm&fs=1&${tipo}=${para}&su=${titulo}&body=${mensagem}`, "_blank");
-    emails(null, null);
+    emailG(null, null);
 }
 function emailDiv() {
     emailPadrao('');
