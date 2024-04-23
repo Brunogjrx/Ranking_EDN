@@ -10,7 +10,7 @@
     <meta name="keywords" content="csv, rank, escola da nuvem" />
     <link rel="icon" type="image/x-icon" href="./src/premio1.png" />
     <link rel="stylesheet" href="style.css" />
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" defer crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" defer crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script defer src="script.js"></script>
 </head>
 
@@ -232,19 +232,19 @@
                 </div>
                 <div id="filtrados" class="abaConteudo">
                     <div id="div1Filtrados">
-                        <h3><label for="alunosFiltrados">Alunos com menos de
-                                <input id="alunosFiltrados" type="text" placeholder="70" value="70"> %
-                                <button class="icones" style="background-image: url('./src/filtro.png');"
-                                    onclick="filtragem(true)"></button>
+                        <h3>
+                            <label for="alunosFiltrados">Alunos com menos de
+                            <input id="alunosFiltrados" type="text" placeholder="70" value="70"> %
+                            <button class="icones" style="background-image: url('./src/filtro.png');" onclick="filtragem(true)"></button>
                             </label>
-                            <div id="opcoesAluno">
-                                <button class="icones" style="background-image: url('./src/copiar.png');" title="Copiar"
-                                    onclick="areaTransferencia(null,'alunosFiltrados')"></button>
-                                <button class="icones" id="emailVer" style="background-image: url('./src/email.png');"
-                                    title="Enviar e-mails" onclick="emailDiv()"></button>
-                            </div>
-                        </h3>
-                        <p></p>
+                        <div id="opcoesAluno">
+                            <button class="icones" style="background-image: url('./src/copiar.png');" title="Copiar"
+                                onclick="areaTransferencia(null,'alunosFiltrados')"></button>
+                            <button class="icones" id="emailVer" style="background-image: url('./src/email.png');"
+                                title="Enviar e-mails" onclick="emailDiv()"></button>
+                        </div>
+                    </h3>
+                    <p></p>
                     </div>
                     <div id="div2Filtrados">
                         <label for="emailTitulo" title="Titulo">Titulo<input type="text" name="Titulo" id="emailTitulo"

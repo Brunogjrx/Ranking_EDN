@@ -1,12 +1,11 @@
 const inicioTitulo = document.getElementById('texTitulo'), inicioSubtitulo = document.getElementById('textSubtitulo'), inicioProfessor = document.getElementById('texProfessor'), inicioSemana = document.getElementById('numSemana'), inicioColunas = document.getElementById('numColunas'), inicioAlunos = document.getElementById('numAlunos'),
     rankTitulo = document.getElementById('stitulo'), rankSubtitulo = document.getElementById('ssubtitulo'), rankProfessor = document.getElementById('sprof'), rankSala = document.getElementById('salas'),
-    preposicoes = ["da", "das", "de", "di", "do", "dos"], areaFotografada = document.getElementById('rank'),
+    preposicoes = ["da", "das", "de", "di", "do", "dos"],
     abrir = document.getElementById('abrirArquivo'),
     alunosOrdemAZ = document.querySelector('#listOrd > p');
 let alunosParaClipboard = '', alunosFiltrados = '', listaFiltrados = '', quantidadeColunas = 0, semanas = '', listaFiltradosEmails = '', listaOrdenada = [], filtroAZ = false;
 abrir.addEventListener('change', (event) => {
     listaOrdenada = [];
-    M('---- T ----')
     if (validarCampos()) { return; }
     quantidadeColunas = parseInt(inicioColunas.value);
     rankTitulo.innerText = inicioTitulo.value;
@@ -156,7 +155,7 @@ function creditosVisiveis(elem, visivel) {
     } else { document.querySelector(elem).style.display = "none"; }
 }
 async function Fotos() {
-    const canvas = await html2canvas(areaFotografada).then(canvas => {
+    const canvas = await html2canvas(document.getElementById('rank')).then(canvas => {
         let fotoDownload = document.createElement("a");
         fotoDownload.style = "display: none";
         const foto = canvas.toDataURL(), fotosSemana = '';
