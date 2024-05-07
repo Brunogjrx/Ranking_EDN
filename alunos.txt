@@ -4,16 +4,16 @@
  1,Carlos Bonato,100    
  1,Hugo Francisquetti,100    
  1,João Otávio,100    
- 1,Lisandra Tkaczuk Da Silva,100                                                                  
- 2,Bruno De Medeiros Luz,94    
- 2,Fábio Josmar De Brito,94    
- 2,Guilherme Henrique De Oliveira,94                                                                    
- 3,Jose Nilton Almeida Gomes,93                                                                    
- 4,Giovanna Carneiro Lacerda,91    
- 4,Vinicius Santana Dos Reis,91                                                                    
- 5,Bruno Pinheiro De Oliveira,87                                                                    
- 6,Vivian De Sousa Santana,84                                                                     
- 7,Anderson José Alves,83                                                                    
+ 1,Lisandra Tkaczuk,100                                                                  
+ 2,Bruno De Medeiros,94    
+ 2,Fábio Josmar,94    
+ 2,Guilherme Henrique,94                                                                    
+ 3,Jose Nilton,93                                                                    
+ 4,Giovanna Carneiro,91    
+ 4,Vinicius Santana,91                                                                    
+ 5,Bruno Pinheiro,87                                                                    
+ 6,Vivian De Sousa,84                                                                     
+ 7,Anderson José,83                                                                    
  8,Gabriel Cabral,82    
  8,Mariah Victoria,82    
  8,Renan Daniel,82                                                                     
